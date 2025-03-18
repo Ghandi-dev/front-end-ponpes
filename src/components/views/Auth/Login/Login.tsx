@@ -12,14 +12,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="bg-muted relative hidden lg:block">
-        <Image
-          src="/puskesmas.svg"
-          alt="Login Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-          width={500}
-          height={500}
-        />
+      <div className="bg-muted hidden lg:flex items-center justify-center relative">
+        <Image src="/logo.png" alt="Login Image" className="dark:brightness-[0.2] dark:grayscale" width={600} height={600} />
       </div>
     </div>
   );

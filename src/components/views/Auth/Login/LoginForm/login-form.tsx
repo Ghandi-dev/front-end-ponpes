@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
   return (
@@ -24,6 +25,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         <Button type="submit" className="w-full">
           Login
         </Button>
+      </div>
+      <div className="text-center text-sm">
+        Belum punya akun?{" "}
+        <Link href="/auth/register" className="underline underline-offset-4">
+          Daftar
+        </Link>
       </div>
     </form>
   );

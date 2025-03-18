@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import useRegister from "../useRegister";
 import { Eye, EyeClosed } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
+import Link from "next/link";
 
 const RegisterForm = ({ className, ...props }: React.ComponentProps<"form">) => {
   const { handleVisiblePassword, visiblePassword, form, handlerSubmit, isPendingRegister } = useRegister();
@@ -86,6 +87,12 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"form">) => 
           <Button type="submit" className="w-full">
             {isPendingRegister ? <Spinner /> : "Register"}
           </Button>
+        </div>
+        <div className="text-center text-sm">
+          Sudah punya akun?{" "}
+          <Link href="/auth/login" className="underline underline-offset-4">
+            Login
+          </Link>
         </div>
       </form>
     </Form>

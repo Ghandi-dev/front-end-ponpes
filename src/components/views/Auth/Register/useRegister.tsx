@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IRegister } from "@/types/Auth";
 import authServices from "@/services/auth.service";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const validatePassword = z
   .string({ required_error: "Masukkan password" })
@@ -27,6 +28,7 @@ const registerSchema = z
   });
 
 const useRegister = () => {
+  const router = useRouter();
   const [visiblePassword, setVisiblePassword] = useState({
     password: false,
     confirmPassword: false,
@@ -51,6 +53,7 @@ const useRegister = () => {
     onSuccess: () => {
       form.reset();
       toast.success("Register berhasil");
+      router.push("/auth/register/success");
     },
     onError: (error) => {
       toast.error(error.message);
