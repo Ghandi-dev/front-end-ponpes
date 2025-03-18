@@ -84,13 +84,13 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"form">) => 
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isPendingRegister}>
             {isPendingRegister ? <Spinner /> : "Register"}
           </Button>
         </div>
         <div className="text-center text-sm">
           Sudah punya akun?{" "}
-          <Link href="/auth/login" className="underline underline-offset-4">
+          <Link href="/auth/login" className="underline underline-offset-4 text-primary">
             Login
           </Link>
         </div>

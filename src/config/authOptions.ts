@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
         const me = await authServices.getProfileWithToken(accessToken);
         const user = me.data.data;
 
-        if (accessToken && result.status === 200 && user._id && me.status === 200) {
+        if (accessToken && result.status === 200 && me.status === 200) {
           user.accessToken = accessToken;
           return user;
         } else {

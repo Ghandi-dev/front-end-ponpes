@@ -31,13 +31,12 @@ interface JWTExtended extends JWT {
 }
 
 interface IProfile {
-  _id?: string;
+  id?: string;
   email?: string;
   fullname?: string;
   isActive?: boolean;
   profilePicture?: string | FileList;
   role?: string;
-  username?: string;
 }
 
 interface IUpdatePassword {

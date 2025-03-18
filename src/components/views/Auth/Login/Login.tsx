@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/views/Auth/Login/LoginForm/login-form";
+import { LoginForm } from "@/components/views/Auth/Login/LoginForm/LoginForm";
 import Image from "next/image";
 import React from "react";
 

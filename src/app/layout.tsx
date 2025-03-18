@@ -33,7 +33,7 @@ export default async function RootLayout({
         <AuthProvider session={session}>
           <ProviderQueryClient>{children}</ProviderQueryClient>
         </AuthProvider>
-        <Toaster />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
