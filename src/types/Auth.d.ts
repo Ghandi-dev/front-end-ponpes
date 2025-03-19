@@ -30,19 +30,32 @@ interface JWTExtended extends JWT {
   user?: UserExtended;
 }
 
+interface ISantri {
+  fullname?: string;
+  gender?: string;
+  placeOfBirth?: string;
+  dateOfBirth?: Date;
+  gender?: string;
+  schoolOrigin?: string;
+  nisn?: string;
+  nik?: string;
+  familyCardNumber?: string;
+  nationality: string;
+  phoneNumber?: string;
+  status?: string;
+}
+
 interface IProfile {
   id?: string;
   email?: string;
-  fullname?: string;
-  isActive?: boolean;
-  profilePicture?: string | FileList;
+  profilePicture?: string | FileList | URL;
   role?: string;
+  santri?: ISantri;
 }
-
 interface IUpdatePassword {
   oldPassword: string;
   password: string;
   confirmPassword: string;
 }
 
-export type { IRegister, ILogin, IActivation, UserExtended, SessionExtended, JWTExtended, IProfile, IUpdatePassword };
+export type { IRegister, ILogin, IActivation, UserExtended, SessionExtended, JWTExtended, IProfile, IUpdatePassword, ISantri };

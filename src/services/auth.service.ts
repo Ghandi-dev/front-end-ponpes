@@ -9,6 +9,7 @@ const authServices = {
     instance.get(`${endpoint.AUTH}/me`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
+  getProfile: () => instance.get(`${endpoint.AUTH}/me`),
   activation: (payload: IActivation) => instance.post(`${endpoint.AUTH}/activation`, payload),
 };
 

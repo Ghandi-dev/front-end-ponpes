@@ -16,7 +16,7 @@ export function NavMain({
     icon?: LucideIcon;
   }[];
 }) {
-  const pathname = usePathname(); // ✅ Gunakan `usePathname()` untuk mendapatkan path saat ini
+  const pathname = usePathname();
 
   return (
     <SidebarGroup>
