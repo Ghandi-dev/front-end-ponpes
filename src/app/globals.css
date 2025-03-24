@@ -100,3 +100,9 @@
     --chart-5: oklch(60% 0.27 350);
   }
 }
+
+/* add this snippet in your globals.css file */
+
+.rdp-vhidden {
+  @apply hidden;
+}
