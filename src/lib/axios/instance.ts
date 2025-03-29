@@ -5,7 +5,8 @@ import { getSession } from "next-auth/react";
 
 const isServer = typeof window === "undefined"; // Deteksi server-side
 
-const API_URL = isServer ? "http://localhost:3001/api" : environment.API_URL; // Ganti localhost dengan port API lokalmu
+const API_URL = isServer ? "http://localhost:3001/api" : environment.API_URL;
+const REGION_API_URL = isServer ? "http://localhost:3001/api/regions" : environment.REGION_API_URL;
 
 const headers = {
   "Content-Type": "application/json",
@@ -16,6 +17,23 @@ const instance = axios.create({
   headers,
   timeout: 60 * 1000,
 });
+
+// Instance untuk data wilayah (regions)
+const regionApiInstance = axios.create({
+  baseURL: REGION_API_URL,
+  headers,
+  timeout: 60 * 1000,
+});
+
+regionApiInstance.interceptors.response.use(
+  (response) => response,
+  (error) => Promise.reject(error)
+);
+
+regionApiInstance.interceptors.request.use(
+  async (request) => request,
+  (error) => Promise.reject(error)
+);
 
 // Interceptors response
 instance.interceptors.response.use(
@@ -37,4 +55,4 @@ instance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default instance;
+export { instance, regionApiInstance };

@@ -12,8 +12,13 @@ import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
 import useFormDataSantri from "./useFormDataSantri";
 
-const FormDataSantri = () => {
-  const { form, dataSantri, isPendingUpdateSantri, handleUpdateSantri } = useFormDataSantri();
+interface PropTypes {
+  refetchProfile: () => void;
+}
+
+const FormDataSantri = (props: PropTypes) => {
+  const { refetchProfile } = props;
+  const { form, dataSantri, isPendingUpdateSantri, handleUpdateSantri, isSuccessUpdateSantri } = useFormDataSantri();
 
   const {
     control,
@@ -23,18 +28,20 @@ const FormDataSantri = () => {
 
   useEffect(() => {
     if (dataSantri) {
-      setValue("fullname", dataSantri.fullname);
-      setValue("placeOfBirth", dataSantri.placeOfBirth);
-      setValue("dateOfBirth", new Date(dataSantri.dateOfBirth));
-      setValue("gender", dataSantri.gender);
-      setValue("schoolOrigin", dataSantri.schoolOrigin);
-      setValue("nisn", dataSantri.nisn);
-      setValue("nik", dataSantri.nik);
-      setValue("familyCardNumber", dataSantri.familyCardNumber);
-      setValue("nationality", dataSantri.nationality);
-      setValue("phoneNumber", dataSantri.phoneNumber);
+      setValue("fullname", dataSantri.fullname ?? "");
+      setValue("placeOfBirth", dataSantri.placeOfBirth ?? "");
+      setValue("dateOfBirth", dataSantri.dateOfBirth ? new Date(dataSantri.dateOfBirth) : new Date());
+      setValue("gender", dataSantri.gender ?? "male");
+      setValue("schoolOrigin", dataSantri.schoolOrigin ?? "");
+      setValue("nisn", dataSantri.nisn ?? "");
+      setValue("nik", dataSantri.nik ?? "");
+      setValue("familyCardNumber", dataSantri.familyCardNumber ?? "");
+      setValue("nationality", dataSantri.nationality ?? "");
+      setValue("phoneNumber", dataSantri.phoneNumber ?? "");
     }
-  }, [dataSantri, setValue]);
+    if (isSuccessUpdateSantri) refetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataSantri, setValue, refetchProfile]);
 
   return (
     <Card className="p-4 border-none">
@@ -76,7 +83,6 @@ const FormDataSantri = () => {
             <FormField
               control={control}
               name="dateOfBirth"
-              // defaultValue={new Date()}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tanggal Lahir</FormLabel>
@@ -97,7 +103,7 @@ const FormDataSantri = () => {
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Pilih Jenis Kelamin" />
                       </SelectTrigger>
                       <SelectContent className="border-primary">
                         <SelectGroup>

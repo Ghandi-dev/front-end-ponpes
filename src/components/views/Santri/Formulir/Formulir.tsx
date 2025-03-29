@@ -7,23 +7,23 @@ import FormDataAlamat from "./FormDataAlamat/FormDataAlamat";
 import FormDataBerkas from "./FormDataBerkas/FormDataBerkas";
 
 const Formulir = () => {
-  const { dataProfile } = useSidebar();
+  const { dataProfile, refetchProfile } = useSidebar();
   return (
     <Tabs defaultValue="santri" className="w-full">
       <TabsList>
         <TabsTrigger value="santri">Data Santri</TabsTrigger>
-        <TabsTrigger value="address" disabled={dataProfile?.santri?.status !== "completed_profile"}>
+        <TabsTrigger value="address" disabled={!["completed_profile", "completed_address", "completed_file"].includes(dataProfile?.santri?.status)}>
           Alamat
         </TabsTrigger>
-        <TabsTrigger value="file" disabled={dataProfile?.santri?.status !== "completed_profile" || dataProfile?.santri?.status !== "completed_address"}>
+        <TabsTrigger value="file" disabled={!["completed_address", "completed_file"].includes(dataProfile?.santri?.status)}>
           Berkas
         </TabsTrigger>
       </TabsList>
       <TabsContent value="santri">
-        <FormDataSantri />
+        <FormDataSantri refetchProfile={refetchProfile} />
       </TabsContent>
       <TabsContent value="address">
-        <FormDataAlamat />
+        <FormDataAlamat refetchProfile={refetchProfile} />
       </TabsContent>
       <TabsContent value="file">
         <FormDataBerkas />

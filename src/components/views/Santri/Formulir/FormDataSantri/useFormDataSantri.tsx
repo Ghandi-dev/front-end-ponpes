@@ -56,7 +56,11 @@ const useFormDataSantri = () => {
     return data.data as ISantri;
   };
 
-  const { mutate: mutateUpdateSantri, isPending: isPendingUpdateSantri } = useMutation({
+  const {
+    mutate: mutateUpdateSantri,
+    isPending: isPendingUpdateSantri,
+    isSuccess: isSuccessUpdateSantri,
+  } = useMutation({
     mutationFn: updateSantri,
     onSuccess: () => {
       toast.success("Data santri berhasil diperbarui");
@@ -80,6 +84,7 @@ const useFormDataSantri = () => {
     form,
     dataSantri,
     isRefetchingSantri,
+    isSuccessUpdateSantri,
     isPendingUpdateSantri,
     isLoadingSantri,
     handleUpdateSantri,

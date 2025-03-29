@@ -1,4 +1,4 @@
-import instance from "@/lib/axios/instance";
+import { instance } from "@/lib/axios/instance";
 import endpoint from "./endpoint.constants";
 import { ISantriForm } from "@/types/Santri";
 
