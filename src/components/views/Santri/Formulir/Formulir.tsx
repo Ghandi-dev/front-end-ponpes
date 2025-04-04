@@ -5,6 +5,7 @@ import useSidebar from "@/components/layouts/useSidebar";
 import FormDataSantri from "./FormDataSantri/FormDataSantri";
 import FormDataAlamat from "./FormDataAlamat/FormDataAlamat";
 import FormDataBerkas from "./FormDataBerkas/FormDataBerkas";
+import { SANTRI_STATUS } from "@/constant/status.constant";
 
 const Formulir = () => {
   const { dataProfile, refetchProfile } = useSidebar();
@@ -12,10 +13,20 @@ const Formulir = () => {
     <Tabs defaultValue="santri" className="w-full">
       <TabsList>
         <TabsTrigger value="santri">Data Santri</TabsTrigger>
-        <TabsTrigger value="address" disabled={!["completed_profile", "completed_address", "completed_file"].includes(dataProfile?.santri?.status)}>
+        <TabsTrigger
+          value="address"
+          disabled={
+            ![SANTRI_STATUS.PROFILE_COMPLETED, SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.RE_REGISTERED].includes(
+              dataProfile?.santri?.status
+            )
+          }
+        >
           Alamat
         </TabsTrigger>
-        <TabsTrigger value="file" disabled={!["completed_address", "completed_file"].includes(dataProfile?.santri?.status)}>
+        <TabsTrigger
+          value="file"
+          disabled={![SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.RE_REGISTERED].includes(dataProfile?.santri?.status)}
+        >
           Berkas
         </TabsTrigger>
       </TabsList>
