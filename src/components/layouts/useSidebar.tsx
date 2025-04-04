@@ -9,11 +9,16 @@ const useSidebar = () => {
     const { data } = await authServices.getProfile();
     return data.data;
   };
-  const { data: dataProfile, refetch: refetchProfile } = useQuery({ queryKey: ["profile"], queryFn: getProfile, enabled: !!pathName });
+  const {
+    data: dataProfile,
+    refetch: refetchProfile,
+    isLoading: isLoadingProfile,
+  } = useQuery({ queryKey: ["profile"], queryFn: getProfile, enabled: !!pathName });
 
   return {
     dataProfile,
     refetchProfile,
+    isLoadingProfile,
   };
 };
 

@@ -24,7 +24,11 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <Link href={item.url}>
+            <Link
+              href={item.url}
+              target={item.url === "/santri/cetak-formulir" ? "_blank" : undefined}
+              rel={item.url === "/santri/cetak-formulir" ? "noopener noreferrer" : undefined}
+            >
               <SidebarMenuButton
                 tooltip={item.title}
                 className={cn("hover:bg-primary hover:text-primary-foreground", pathname.includes(item.url) && "bg-primary text-primary-foreground")}

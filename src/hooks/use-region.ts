@@ -51,7 +51,12 @@ const useRegions = () => {
     enabled: districtId !== "",
   });
 
-  return { dataProvinces, dataRegencies, dataDistricts, dataVillages, setDistrictId, setProvinceId, setRegencyId };
+  const getVillagesById = async (id: string) => {
+    const res = await regionService.getVillageById(id);
+    return res.data.data[0];
+  };
+
+  return { dataProvinces, dataRegencies, dataDistricts, dataVillages, setDistrictId, setProvinceId, setRegencyId, getVillagesById };
 };
 
 export default useRegions;
