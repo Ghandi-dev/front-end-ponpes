@@ -16,7 +16,7 @@ const Formulir = () => {
         <TabsTrigger
           value="address"
           disabled={
-            ![SANTRI_STATUS.PROFILE_COMPLETED, SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.RE_REGISTERED].includes(
+            ![SANTRI_STATUS.PROFILE_COMPLETED, SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.PAYMENT_COMPLETED].includes(
               dataProfile?.santri?.status
             )
           }
@@ -25,7 +25,7 @@ const Formulir = () => {
         </TabsTrigger>
         <TabsTrigger
           value="file"
-          disabled={![SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.RE_REGISTERED].includes(dataProfile?.santri?.status)}
+          disabled={![SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.PAYMENT_COMPLETED].includes(dataProfile?.santri?.status)}
         >
           Berkas
         </TabsTrigger>

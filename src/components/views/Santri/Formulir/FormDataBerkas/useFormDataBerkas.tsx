@@ -1,5 +1,6 @@
 "use client";
 import useMediaHandling from "@/hooks/useMediaHandling";
+import { fileDefaultValues, fileSchema, FileSchemaType } from "@/schemas/file.schema";
 import fileService from "@/services/file.service";
 import { IFile } from "@/types/File";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,22 +8,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const fileSchema = z.union([
-  z.string().min(1, "Pilih file"), // Jika file sudah ada dalam bentuk URL
-  typeof window !== "undefined"
-    ? z.custom<FileList>((val) => val instanceof FileList && val.length > 0, {
-        message: "Pilih file",
-      })
-    : z.never(), // Saat SSR, tidak memeriksa FileList
-]);
-
-const formDataBerkasSchema = z.object({
-  birthCertificate: fileSchema,
-  familyCard: fileSchema,
-  educationCertificate: fileSchema,
-});
 
 const useFormDataBerkas = () => {
   const pathname = usePathname();
@@ -30,13 +15,13 @@ const useFormDataBerkas = () => {
 
   const getFiles = async () => {
     const res = await fileService.getMe();
-    return res.data.data ?? [];
+    return res.data.data;
   };
 
-  const { data: dataFiles = [], isLoading: isLoadingFiles, refetch: refetchFiles } = useQuery({ queryKey: ["Files"], queryFn: getFiles, enabled: !!pathname });
+  const { data: dataFiles, isLoading: isLoadingFiles, refetch: refetchFiles } = useQuery({ queryKey: ["Files"], queryFn: getFiles, enabled: !!pathname });
 
-  const updateFiles = async (payload: IFile) => {
-    if (dataFiles.length < 1) {
+  const updateFiles = async (payload: FileSchemaType) => {
+    if (!dataFiles) {
       const { data } = await fileService.createMe(payload);
       return data.data;
     } else {
@@ -45,7 +30,11 @@ const useFormDataBerkas = () => {
     }
   };
 
-  const form = useForm<z.infer<typeof formDataBerkasSchema>>({ resolver: zodResolver(formDataBerkasSchema) });
+  const form = useForm<FileSchemaType>({
+    mode: "onBlur",
+    resolver: zodResolver(fileSchema),
+    defaultValues: fileDefaultValues,
+  });
 
   const {
     mutate: mutateUpdateFiles,
@@ -54,6 +43,7 @@ const useFormDataBerkas = () => {
   } = useMutation({
     mutationFn: (payload: IFile) => updateFiles(payload),
     onSuccess: () => {
+      form.reset();
       toast.success("Data berhasil disimpan");
     },
     onError: (error) => {
@@ -74,7 +64,7 @@ const useFormDataBerkas = () => {
   };
 
   const handleUpload = (
-    fieldName: keyof z.infer<typeof formDataBerkasSchema>, // Nama field yang akan diperbarui
+    fieldName: keyof FileSchemaType, // Nama field yang akan diperbarui
     files: FileList,
     onChange: (files: FileList | undefined) => void
   ) => {
@@ -85,13 +75,13 @@ const useFormDataBerkas = () => {
     });
   };
 
-  const handleDelete = (fieldName: keyof z.infer<typeof formDataBerkasSchema>, onChange: (files: FileList | undefined) => void) => {
+  const handleDelete = (fieldName: keyof FileSchemaType, onChange: (files: FileList | undefined) => void) => {
     handleDeleteFile(fileUrl[fieldName], () => onChange(undefined));
   };
 
   const handleUpdateFiles = () => {
-    const dataCurrentFiles = dataFiles as IFile;
-    const payload: IFile = {
+    const dataCurrentFiles: FileSchemaType = dataFiles;
+    const payload: FileSchemaType = {
       birthCertificate: form.getValues("birthCertificate"),
       familyCard: form.getValues("familyCard"),
       educationCertificate: form.getValues("educationCertificate"),

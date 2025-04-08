@@ -1,5 +1,4 @@
-import { SquareTerminal } from "lucide-react";
-
+import { SquareTerminal, LayoutDashboard, FileText, CreditCard, Printer } from "lucide-react";
 const MENU_LIST_ADMIN = [
   {
     title: "Dashboard",
@@ -27,22 +26,22 @@ const MENU_LIST_SANTRI_INACTIVE = [
   {
     title: "Dashboard",
     url: "/santri/dashboard",
-    icon: SquareTerminal,
+    icon: LayoutDashboard,
   },
   {
     title: "Formulir",
     url: "/santri/formulir",
-    icon: SquareTerminal,
+    icon: FileText,
   },
   {
     title: "Pembayaran",
     url: "/santri/pembayaran",
-    icon: SquareTerminal,
+    icon: CreditCard,
   },
   {
     title: "Cetak Formulir",
-    url: "/santri/cetak-formulir",
-    icon: SquareTerminal,
+    url: "/cetak-formulir",
+    icon: Printer,
   },
 ];
 
@@ -50,7 +49,7 @@ const MENU_LIST_SANTRI_ACTIVE = [
   {
     title: "Dashboard",
     url: "/santri/dashboard",
-    icon: SquareTerminal,
+    icon: LayoutDashboard,
   },
   {
     title: "SPP",

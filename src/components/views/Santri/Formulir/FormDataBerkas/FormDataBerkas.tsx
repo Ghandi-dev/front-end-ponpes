@@ -1,15 +1,18 @@
 "use client";
 import React, { useEffect } from "react";
-import useFormDataBerkas from "./useFormDataBerkas";
-import InputFile from "@/components/ui/InputFile";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import useFormDataBerkas from "./useFormDataBerkas";
+import useSidebar from "@/components/layouts/useSidebar";
+import { FileUploadWithLabel } from "@/components/inputs/FileUploadWithLabel";
+import { FileSchemaType } from "@/schemas/file.schema";
 
 const FormDataBerkas = () => {
+  const { refetchProfile } = useSidebar();
   const {
     form,
     previewFile,
@@ -24,12 +27,11 @@ const FormDataBerkas = () => {
     handleUpdateFiles,
     refetchFiles,
   } = useFormDataBerkas();
-  const { control } = form;
 
   useEffect(() => {
     if (isSuccessUpdateFiles) {
       refetchFiles();
-      form.reset();
+      refetchProfile();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccessUpdateFiles, refetchFiles]);
@@ -42,8 +44,7 @@ const FormDataBerkas = () => {
             <h1 className="text-md font-bold underline underline-offset-1 underline-primary decoration-primary">Form Data Berkas</h1>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="flex flex-col gap-2 ">
-              <FormLabel>Akta Lahir</FormLabel>
+            <div className="flex flex-col gap-2">
               {isLoadingFiles ? (
                 <Skeleton className="w-full h-40" />
               ) : (
@@ -55,61 +56,36 @@ const FormDataBerkas = () => {
                   height={300}
                 />
               )}
-              <FormField
-                control={control}
-                name="birthCertificate"
-                defaultValue={""}
-                render={({ field: { onChange, ...field } }) => (
-                  <FormItem>
-                    <FormControl>
-                      <InputFile
-                        {...field}
-                        name="test"
-                        isDropable
-                        onUpload={(files) => handleUpload("birthCertificate", files, onChange)}
-                        onDelete={() => handleDelete("birthCertificate", onChange)}
-                        isDeleting={isPendingMutateDeleteFile}
-                        isUploading={isPendingMutateUploadFile}
-                        preview={typeof previewFile.birthCertificate === "string" ? previewFile.birthCertificate : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <FileUploadWithLabel<FileSchemaType>
+                fieldTitle="Akta Kelahiran"
+                nameInSchema="birthCertificate"
+                label={"Akte Kelahiran"}
+                isDropable
+                isUploading={isPendingMutateUploadFile}
+                isDeleting={isPendingMutateDeleteFile}
+                preview={typeof previewFile.birthCertificate === "string" ? previewFile.birthCertificate : ""}
+                onUpload={(files, onChange) => handleUpload("birthCertificate", files, onChange)}
+                onDelete={(onChange) => handleDelete("birthCertificate", onChange)}
               />
             </div>
             <div className="flex flex-col gap-2">
-              <FormLabel>Kartu Keluarga</FormLabel>
               {isLoadingFiles ? (
                 <Skeleton className="w-full h-40" />
               ) : (
                 <Image className="w-full aspect-[3/4] object-fill" src={dataFiles?.familyCard ?? "/no-image.svg"} alt="preview" width={300} height={300} />
               )}
-              <FormField
-                control={control}
-                name="familyCard"
-                defaultValue={""}
-                render={({ field: { onChange, ...field } }) => (
-                  <FormItem>
-                    <FormControl>
-                      <InputFile
-                        {...field}
-                        name="test"
-                        isDropable
-                        onUpload={(files) => handleUpload("familyCard", files, onChange)}
-                        onDelete={() => handleDelete("familyCard", onChange)}
-                        isDeleting={isPendingMutateDeleteFile}
-                        isUploading={isPendingMutateUploadFile}
-                        preview={typeof previewFile.familyCard === "string" ? previewFile.familyCard : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <FileUploadWithLabel<FileSchemaType>
+                fieldTitle="Kartu Keluarga"
+                nameInSchema="familyCard"
+                isDropable
+                isUploading={isPendingMutateUploadFile}
+                isDeleting={isPendingMutateDeleteFile}
+                preview={typeof previewFile.familyCard === "string" ? previewFile.familyCard : ""}
+                onUpload={(files, onChange) => handleUpload("familyCard", files, onChange)}
+                onDelete={(onChange) => handleDelete("familyCard", onChange)}
               />
             </div>
             <div className="flex flex-col gap-2">
-              <FormLabel>Ijazah</FormLabel>
               {isLoadingFiles ? (
                 <Skeleton className="w-full h-40" />
               ) : (
@@ -121,27 +97,15 @@ const FormDataBerkas = () => {
                   height={300}
                 />
               )}
-              <FormField
-                control={control}
-                name="educationCertificate"
-                defaultValue={""}
-                render={({ field: { onChange, ...field } }) => (
-                  <FormItem>
-                    <FormControl>
-                      <InputFile
-                        {...field}
-                        name="test"
-                        isDropable
-                        onUpload={(files) => handleUpload("educationCertificate", files, onChange)}
-                        onDelete={() => handleDelete("educationCertificate", onChange)}
-                        isDeleting={isPendingMutateDeleteFile}
-                        isUploading={isPendingMutateUploadFile}
-                        preview={typeof previewFile.educationCertificate === "string" ? previewFile.educationCertificate : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+              <FileUploadWithLabel<FileSchemaType>
+                fieldTitle="Ijazah"
+                nameInSchema="educationCertificate"
+                isDropable
+                isUploading={isPendingMutateUploadFile}
+                isDeleting={isPendingMutateDeleteFile}
+                preview={typeof previewFile.educationCertificate === "string" ? previewFile.educationCertificate : ""}
+                onUpload={(files, onChange) => handleUpload("educationCertificate", files, onChange)}
+                onDelete={(onChange) => handleDelete("educationCertificate", onChange)}
               />
             </div>
           </div>

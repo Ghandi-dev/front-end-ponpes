@@ -82,9 +82,7 @@ const Pembayaran = () => {
           <Button
             type="button"
             onClick={() =>
-              dataPayment && dataPayment?.detail?.token
-                ? handleMidtransSnap(dataPayment?.detail?.token)
-                : handleCreatePayment(dataProfile?.santri?.status === "payment_reg" ? "spp" : "registration")
+              dataPayment && dataPayment?.detail?.token ? handleMidtransSnap(dataPayment?.detail?.token) : handleCreatePayment(dataProfile?.santri?.status)
             }
             disabled={isPendingCreatePayment || isLoadingDataPayment || dataPayment?.status === "completed" || dataProfile?.santri?.status === "payment_reg"}
           >

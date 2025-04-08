@@ -14,7 +14,6 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { IProfile } from "@/types/Auth";
 import { signOut } from "next-auth/react";
-import { Button } from "../ui/button";
 
 export function NavUser({ user }: { user: IProfile }) {
   const { isMobile } = useSidebar();
@@ -56,8 +55,10 @@ export function NavUser({ user }: { user: IProfile }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
-              <Button onClick={() => signOut({ callbackUrl: "/auth/login" })}>Log out</Button>
+              <div className="flex w-full items-center gap-2 px-1 py-1.5 text-left text-sm" onClick={() => signOut({ callbackUrl: "/auth/login" })}>
+                <LogOut />
+                Logout
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

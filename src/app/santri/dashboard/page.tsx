@@ -1,7 +1,8 @@
+import Dashboard from "@/components/views/Santri/Dashboard/Dashboard";
 import React from "react";
 
-const page = () => {
-  return <div>page</div>;
+const DashboardPage = () => {
+  return <Dashboard />;
 };
 
-export default page;
+export default DashboardPage;

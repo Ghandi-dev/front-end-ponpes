@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
   });
   const { pathname } = request.nextUrl;
 
-  if (pathname === "/auth/login" || pathname === "/auth/register") {
+  if (pathname === "/auth/login" || pathname === "/auth/register" || pathname === "/") {
     if (token?.user?.role === "admin") return NextResponse.redirect(new URL("/admin", request.url));
     if (token?.user?.role === "santri") return NextResponse.redirect(new URL("/santri", request.url));
   }
@@ -37,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/auth/:path*", "/admin/:path*", "/santri/:path*"],
+  matcher: ["/auth/:path*", "/admin/:path*", "/santri/:path*", "/"],
 };

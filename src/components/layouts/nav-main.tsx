@@ -26,7 +26,7 @@ export function NavMain({
           <SidebarMenuItem key={item.title}>
             <Link
               href={item.url}
-              target={item.url === "/santri/cetak-formulir" ? "_blank" : undefined}
+              target={item.url === "/cetak-formulir" ? "_blank" : undefined}
               rel={item.url === "/santri/cetak-formulir" ? "noopener noreferrer" : undefined}
             >
               <SidebarMenuButton

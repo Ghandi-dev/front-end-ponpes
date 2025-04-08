@@ -1,4 +1,5 @@
 "use client";
+import { SANTRI_STATUS } from "@/constant/status.constant";
 import paymentService from "@/services/payment.service";
 import { IPaymentRequest } from "@/types/Payment";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -74,6 +75,7 @@ const usePembayaran = () => {
   } = useMutation({
     mutationFn: createPayment,
     onSuccess: (result) => {
+      refetchDataPayment();
       const transactionToken = result.detail.token;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).snap.pay(transactionToken);
@@ -83,7 +85,14 @@ const usePembayaran = () => {
     },
   });
 
-  const handleCreatePayment = (type: string) => {
+  const handleCreatePayment = (status: string) => {
+    console.log(status);
+
+    if (status !== SANTRI_STATUS.FILES_COMPLETED) {
+      toast.error("Anda belum menyelesaikan tahapan pendaftaran yang diperlukan untuk melakukan pembayaran.");
+      return;
+    }
+    const type = status === SANTRI_STATUS.FILES_COMPLETED ? "registration" : "spp";
     const payload = { type } as IPaymentRequest;
     mutateCreatePayment(payload);
   };
