@@ -4,8 +4,8 @@ import { SantriInsertSchemaType } from "@/schemas/santri.schema";
 
 const santriService = {
   getAll: async (params: string) => instance.get(`${endpoint.SANTRI}?${params}`),
-  getById: async (santriId: string) => instance.get(`${endpoint.SANTRI}/${santriId}`),
-  update: async (santriId: string, payload: SantriInsertSchemaType) => instance.put(`${endpoint.SANTRI}/${santriId}`, payload),
+  getById: async (santriId: number) => instance.get(`${endpoint.SANTRI}/${santriId}`),
+  update: async (santriId: number, payload: SantriInsertSchemaType) => instance.put(`${endpoint.SANTRI}/${santriId}`, payload),
   getMe: async () => instance.get(`${endpoint.SANTRI}/me/details`),
   updateMe: async (payload: SantriInsertSchemaType) => instance.put(`${endpoint.SANTRI}/me/details`, payload),
 };

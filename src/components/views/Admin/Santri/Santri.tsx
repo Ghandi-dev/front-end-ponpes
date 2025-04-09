@@ -10,8 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { SantriSelectSchemaType } from "@/schemas/santri.schema";
 import { cn } from "@/lib/utils";
 import { SANTRI_STATUS } from "@/constant/status.constant";
-import DialogAddSantri from "./DialogAddSantri/DialogAddSantri";
 import { Button } from "@/components/ui/button";
+import DialogAddSantri from "./DialogAdd/DialogAddSantri";
 
 const Santri = () => {
   const router = useRouter();
