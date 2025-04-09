@@ -26,8 +26,6 @@ const CetakFormulir = () => {
     }
   }, [isDataReadyForPrint]);
 
-  // Cek apakah masih loading
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 m-0 print:bg-white">
       <div className="w-[210mm] h-[297mm] bg-white shadow-lg p-10 relative border print:shadow-none print:border-none">

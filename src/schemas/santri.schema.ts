@@ -21,6 +21,13 @@ export const santriSchema = z.object({
     .regex(/^\d+$/, "Nomor kartu keluarga harus berupa angka"),
 });
 
+export const santriSelectSchema = santriSchema.extend({
+  id: z.number(),
+  status: z.string(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+});
+
 export const santriDefaultValues: z.infer<typeof santriSchema> = {
   fullname: "",
   placeOfBirth: "",
@@ -34,4 +41,5 @@ export const santriDefaultValues: z.infer<typeof santriSchema> = {
   familyCardNumber: "",
 };
 
-export type SantriSchemaType = z.infer<typeof santriSchema>;
+export type SantriInsertSchemaType = z.infer<typeof santriSchema>;
+export type SantriSelectSchemaType = z.infer<typeof santriSelectSchema>;

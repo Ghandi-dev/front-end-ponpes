@@ -6,8 +6,8 @@ const MENU_LIST_ADMIN = [
     icon: SquareTerminal,
   },
   {
-    title: "Pendaftaran",
-    url: "/admin/pendaftaran",
+    title: "Santri",
+    url: "/admin/santri",
     icon: SquareTerminal,
   },
   {

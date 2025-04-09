@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
 import useFormDataSantri from "./useFormDataSantri";
 import { InputWithLabel } from "@/components/inputs/InputWithLabel";
-import { SantriSchemaType } from "@/schemas/santri.schema";
+import { SantriInsertSchemaType } from "@/schemas/santri.schema";
 import { InputDateWithLabel } from "@/components/inputs/InputDateWithLabel";
 import { SelectWithLabel } from "@/components/inputs/SelectWithLabel";
 
@@ -40,10 +40,10 @@ const FormDataSantri = (props: PropTypes) => {
           </div>
 
           <div className={cn("grid grid-cols-1 lg:grid-cols-4 items-start", Object.keys(errors).length > 0 ? "gap-3" : "gap-6")}>
-            <InputWithLabel<SantriSchemaType> fieldTitle="Nama Lengkap" nameInSchema="fullname" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="Tempat Lahir" nameInSchema="placeOfBirth" />
-            <InputDateWithLabel<SantriSchemaType> fieldTitle="Tanggal Lahir" nameInSchema="dateOfBirth" />
-            <SelectWithLabel<SantriSchemaType>
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="Nama Lengkap" nameInSchema="fullname" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="Tempat Lahir" nameInSchema="placeOfBirth" />
+            <InputDateWithLabel<SantriInsertSchemaType> fieldTitle="Tanggal Lahir" nameInSchema="dateOfBirth" />
+            <SelectWithLabel<SantriInsertSchemaType>
               fieldTitle="Jenis Kelamin"
               nameInSchema="gender"
               options={[
@@ -51,12 +51,12 @@ const FormDataSantri = (props: PropTypes) => {
                 { value: "female", label: "Perempuan" },
               ]}
             />
-            <InputWithLabel<SantriSchemaType> fieldTitle="Asal Sekolah" nameInSchema="schoolOrigin" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="No Handphone" nameInSchema="phoneNumber" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="NISN" nameInSchema="nisn" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="NIK" nameInSchema="nik" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="No Kartu Keluarga" nameInSchema="familyCardNumber" />
-            <InputWithLabel<SantriSchemaType> fieldTitle="Kewarganegaraan" nameInSchema="nationality" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="Asal Sekolah" nameInSchema="schoolOrigin" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="No Handphone" nameInSchema="phoneNumber" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="NISN" nameInSchema="nisn" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="NIK" nameInSchema="nik" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="No Kartu Keluarga" nameInSchema="familyCardNumber" />
+            <InputWithLabel<SantriInsertSchemaType> fieldTitle="Kewarganegaraan" nameInSchema="nationality" />
           </div>
           <div className="flex justify-end">
             <Button type="submit" className="w-full lg:max-w-xs" disabled={isPendingUpdateSantri}>

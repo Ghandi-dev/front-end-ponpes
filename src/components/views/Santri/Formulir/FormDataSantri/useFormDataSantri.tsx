@@ -1,6 +1,6 @@
 "use client";
 
-import { santriDefaultValues, santriSchema, SantriSchemaType } from "@/schemas/santri.schema";
+import { santriDefaultValues, santriSchema, SantriInsertSchemaType } from "@/schemas/santri.schema";
 import santriService from "@/services/santri.service";
 import { ISantri } from "@/types/Auth";
 import { ISantriForm } from "@/types/Santri";
@@ -26,7 +26,7 @@ const useFormDataSantri = () => {
     isLoading: isLoadingSantri,
   } = useQuery({ queryKey: ["santri"], queryFn: getSantri, enabled: !!pathname });
 
-  const form = useForm<SantriSchemaType>({
+  const form = useForm<SantriInsertSchemaType>({
     mode: "onBlur",
     resolver: zodResolver(santriSchema),
     defaultValues: santriDefaultValues,
