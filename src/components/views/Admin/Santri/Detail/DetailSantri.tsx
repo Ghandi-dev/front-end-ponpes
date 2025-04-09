@@ -2,6 +2,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DataSantri from "./DataSantri/DataSantri";
 import DataAlamat from "./DataAlamat/DataAlamat";
+import DataBerkas from "./DataBerkas/DataBerkas";
 
 const DetailSantri = () => {
   return (
@@ -17,7 +18,9 @@ const DetailSantri = () => {
       <TabsContent value="address">
         <DataAlamat />
       </TabsContent>
-      <TabsContent value="file"></TabsContent>
+      <TabsContent value="file">
+        <DataBerkas />
+      </TabsContent>
     </Tabs>
   );
 };
