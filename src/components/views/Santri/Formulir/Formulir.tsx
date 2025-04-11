@@ -1,14 +1,15 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
-import useSidebar from "@/components/layouts/useSidebar";
+import useProfile from "@/hooks/useProfile";
 import FormDataSantri from "./FormDataSantri/FormDataSantri";
 import FormDataAlamat from "./FormDataAlamat/FormDataAlamat";
 import FormDataBerkas from "./FormDataBerkas/FormDataBerkas";
 import { SANTRI_STATUS } from "@/constant/status.constant";
 
 const Formulir = () => {
-  const { dataProfile, refetchProfile } = useSidebar();
+  const { dataProfile, refetchProfile } = useProfile();
+
   return (
     <Tabs defaultValue="santri" className="w-full">
       <TabsList>
@@ -17,7 +18,7 @@ const Formulir = () => {
           value="address"
           disabled={
             ![SANTRI_STATUS.PROFILE_COMPLETED, SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.PAYMENT_COMPLETED].includes(
-              dataProfile?.santri?.status
+              (dataProfile?.santri?.status as SANTRI_STATUS) || ""
             )
           }
         >
@@ -25,7 +26,11 @@ const Formulir = () => {
         </TabsTrigger>
         <TabsTrigger
           value="file"
-          disabled={![SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.PAYMENT_COMPLETED].includes(dataProfile?.santri?.status)}
+          disabled={
+            ![SANTRI_STATUS.ADDRESS_COMPLETED, SANTRI_STATUS.FILES_COMPLETED, SANTRI_STATUS.PAYMENT_COMPLETED].includes(
+              (dataProfile?.santri?.status as SANTRI_STATUS) || ""
+            )
+          }
         >
           Berkas
         </TabsTrigger>

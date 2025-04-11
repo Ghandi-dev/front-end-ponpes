@@ -74,7 +74,7 @@ const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
             </SelectContent>
           </Select>
         )}
-        {totalPages === 1 && <DynamicPagination currentPage={+currentPage} onChange={handleChangePage} totalPages={totalPages} />}
+        {totalPages >= 1 && <DynamicPagination currentPage={+currentPage} onChange={handleChangePage} totalPages={totalPages} />}
       </div>
     ),
     [currentLimit, currentPage, handleChangeLimit, handleChangePage, totalPages]

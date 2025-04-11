@@ -1,13 +1,14 @@
 "use client";
 import authServices from "@/services/auth.service";
+import { IProfile } from "@/types/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
-const useSidebar = () => {
+const useProfile = () => {
   const pathName = usePathname();
   const getProfile = async () => {
     const { data } = await authServices.getProfile();
-    return data.data;
+    return data.data as IProfile;
   };
   const {
     data: dataProfile,
@@ -22,4 +23,4 @@ const useSidebar = () => {
   };
 };
 
-export default useSidebar;
+export default useProfile;

@@ -1,5 +1,5 @@
 "use client";
-import useSidebar from "@/components/layouts/useSidebar";
+import useProfile from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const Pembayaran = () => {
-  const { dataProfile, refetchProfile } = useSidebar();
+  const { dataProfile, refetchProfile } = useProfile();
   const searchParams = useSearchParams();
 
   // Ambil parameter dari URL
@@ -76,13 +76,15 @@ const Pembayaran = () => {
             </div>
             <div className="grid gap-2">
               <Label>Tanggal Lahir</Label>
-              <Input className="capitalize" type="date" placeholder="Nominal" value={dataProfile?.santri?.dateOfBirth ?? ""} disabled />
+              <Input className="capitalize" type="date" placeholder="Nominal" value={(dataProfile?.santri?.dateOfBirth as number) ?? ""} disabled />
             </div>
           </CardContent>
           <Button
             type="button"
             onClick={() =>
-              dataPayment && dataPayment?.detail?.token ? handleMidtransSnap(dataPayment?.detail?.token) : handleCreatePayment(dataProfile?.santri?.status)
+              dataPayment && dataPayment?.detail?.token
+                ? handleMidtransSnap(dataPayment?.detail?.token)
+                : handleCreatePayment(dataProfile?.santri?.status || "")
             }
             disabled={isPendingCreatePayment || isLoadingDataPayment || dataPayment?.status === "completed" || dataProfile?.santri?.status === "payment_reg"}
           >

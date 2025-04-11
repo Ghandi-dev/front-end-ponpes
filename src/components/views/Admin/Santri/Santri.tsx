@@ -25,27 +25,32 @@ const Santri = () => {
 
   const renderCell = useCallback(
     (santri: SantriSelectSchemaType, columnKey: Key) => {
-      const cellValue = santri[columnKey as keyof typeof santri];
+      const cellValue = typeof columnKey === "string" && columnKey in santri ? santri[columnKey as keyof typeof santri] : null;
+
       switch (columnKey) {
         case "status":
-          return <Badge className={cn(santri.status === SANTRI_STATUS.ACTIVE ? "bg-primary" : "bg-amber-400 text-accent-foreground")}>{santri.status}</Badge>;
+          const statusClass = santri.status === SANTRI_STATUS.ACTIVE ? "bg-primary" : "bg-amber-400 text-accent-foreground";
+
+          return <Badge className={cn(statusClass)}>{santri.status ?? "UNKNOWN"}</Badge>;
+
         case "actions":
           return (
             <DropdownAction
               onPressButtonDelete={() => {
                 setSelectedId(santri.id as number);
-
                 // deleteCategoryModal.onOpen();
               }}
               onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
             />
           );
+
         default:
           return cellValue as React.ReactNode;
       }
     },
-    [router.push]
+    [router, setSelectedId]
   );
+
   return (
     <div className="p-4">
       <DataTable<SantriSelectSchemaType>

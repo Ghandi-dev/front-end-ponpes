@@ -34,7 +34,7 @@ interface ISantri {
   fullname?: string;
   gender?: string;
   placeOfBirth?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | number;
   gender?: string;
   schoolOrigin?: string;
   nisn?: string;
@@ -45,13 +45,20 @@ interface ISantri {
   status?: string;
 }
 
+interface IAdmin {
+  fullname?: string;
+  phoneNumber?: string;
+}
+
 interface IProfile {
   id?: string;
   email?: string;
   profilePicture?: string | FileList | URL;
   role?: string;
   santri?: ISantri;
+  admin?: IAdmin;
 }
+
 interface IUpdatePassword {
   oldPassword: string;
   password: string;

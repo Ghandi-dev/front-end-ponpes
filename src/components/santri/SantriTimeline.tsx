@@ -10,7 +10,7 @@ const timelineSteps = [
   { key: SANTRI_STATUS.RE_REGISTERED, label: "Daftar Ulang" },
 ];
 
-export default function SantriTimeline({ currentStatus }: { currentStatus: SANTRI_STATUS }) {
+export default function SantriTimeline({ currentStatus }: { currentStatus: string }) {
   const currentIndex = timelineSteps.findIndex((step) => step.key === currentStatus);
 
   return (

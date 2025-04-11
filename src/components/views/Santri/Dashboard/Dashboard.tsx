@@ -1,13 +1,12 @@
 "use client";
-import useSidebar from "@/components/layouts/useSidebar";
+import useProfile from "@/hooks/useProfile";
 import SantriTimeline from "@/components/santri/SantriTimeline";
 import { Card } from "@/components/ui/card";
 import { User, MapPin, FileText, CreditCard, Printer, School } from "lucide-react";
 import React from "react";
 
 const Dashboard = () => {
-  const { dataProfile } = useSidebar();
-  console.log("dataProfile", dataProfile);
+  const { dataProfile } = useProfile();
 
   return (
     <div className="mx-4 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -50,7 +49,7 @@ const Dashboard = () => {
 
       {/* Card Timeline */}
       <Card className="w-full bg-white border-1 border-primary shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out p-4">
-        <SantriTimeline currentStatus={dataProfile?.santri?.status} />
+        <SantriTimeline currentStatus={dataProfile?.santri?.status || ""} />
       </Card>
     </div>
   );

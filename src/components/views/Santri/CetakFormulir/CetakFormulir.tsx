@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import useSidebar from "@/components/layouts/useSidebar";
+import useProfile from "@/hooks/useProfile";
 import { formatDate } from "@/utils/date";
 import useCetakFormulir from "./useCetakFormulir";
 
@@ -10,12 +10,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SANTRI_STATUS } from "@/constant/status.constant";
 
 const CetakFormulir = () => {
-  const { dataProfile, isLoadingProfile } = useSidebar();
+  const { dataProfile, isLoadingProfile } = useProfile();
   const { dataAddress, dataVillage, isSuccessDataVillage, isLoadingDataAddress, isLoadingDataVillage } = useCetakFormulir();
 
   const isLoading = isLoadingProfile || isLoadingDataAddress || isLoadingDataVillage;
   const isDataReadyForPrint = dataAddress && dataVillage && isSuccessDataVillage;
-  const isPaymentCompleted = dataProfile?.santri?.status === SANTRI_STATUS.PAYMENT_COMPLETED;
+  const isPaymentCompleted = (dataProfile?.santri?.status as SANTRI_STATUS) === SANTRI_STATUS.PAYMENT_COMPLETED;
 
   // Auto print after data is ready
   useEffect(() => {
@@ -59,7 +59,7 @@ const CetakFormulir = () => {
                 <p>Tempat Lahir</p>
                 <p className="font-semibold capitalize">: {dataProfile?.santri?.placeOfBirth}</p>
                 <p>Tanggal Lahir</p>
-                <p className="font-semibold capitalize">: {formatDate(new Date(dataProfile?.santri?.dateOfBirth))}</p>
+                <p className="font-semibold capitalize">: {formatDate(new Date(dataProfile?.santri?.dateOfBirth || ""))}</p>
                 <p>Jenis Kelamin</p>
                 <p className="font-semibold capitalize">: {dataProfile?.santri?.gender === "male" ? "Laki-laki" : "Perempuan"}</p>
               </div>

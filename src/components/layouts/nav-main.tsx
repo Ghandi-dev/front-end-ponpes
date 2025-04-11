@@ -1,21 +1,16 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
+// import { type LucideIcon } from "lucide-react";
 
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // 🔥 Gunakan `usePathname` bukan `useRouter`
 import { cn } from "@/lib/utils";
+import { MENU_LIST_ADMIN, MENU_LIST_SANTRI_ACTIVE, MENU_LIST_SANTRI_INACTIVE } from "@/constant/menu.constants";
+import { IProfile } from "@/types/Auth";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-  }[];
-}) {
+export function NavMain({ user }: { user?: IProfile }) {
+  const items = user?.role === "admin" ? MENU_LIST_ADMIN : user?.santri?.status === "active_santri" ? MENU_LIST_SANTRI_ACTIVE : MENU_LIST_SANTRI_INACTIVE;
   const pathname = usePathname();
 
   return (

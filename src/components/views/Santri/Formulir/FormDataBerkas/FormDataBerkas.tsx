@@ -7,12 +7,12 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import useFormDataBerkas from "./useFormDataBerkas";
-import useSidebar from "@/components/layouts/useSidebar";
+import useProfile from "@/hooks/useProfile";
 import { FileUploadWithLabel } from "@/components/inputs/FileUploadWithLabel";
 import { FileSchemaType } from "@/schemas/file.schema";
 
 const FormDataBerkas = () => {
-  const { refetchProfile } = useSidebar();
+  const { refetchProfile } = useProfile();
   const {
     form,
     previewFile,
