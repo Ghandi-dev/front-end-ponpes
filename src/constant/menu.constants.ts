@@ -11,8 +11,8 @@ const MENU_LIST_ADMIN = [
     icon: SquareTerminal,
   },
   {
-    title: "SPP",
-    url: "/admin/spp",
+    title: "Pembayaran",
+    url: "/admin/pembayaran",
     icon: SquareTerminal,
   },
   {

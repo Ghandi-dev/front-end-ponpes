@@ -18,7 +18,6 @@ const Santri = () => {
   const { setUrl } = useChangeUrl();
   const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status } = useSantri();
   const [open, setOpen] = useState(false);
-  console.log(dataSantri);
 
   useEffect(() => {
     setUrl();

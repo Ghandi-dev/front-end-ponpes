@@ -8,3 +8,14 @@ export enum SANTRI_STATUS {
   ACTIVE = "active",
   INACTIVE = "inactive",
 }
+
+export enum STATUS_PAYMENT {
+  PENDING = "pending",
+  COMPLETED = "completed",
+  CANCELED = "canceled",
+}
+
+export enum TYPE_PAYMENT {
+  REGISTRATION = "registration",
+  SPP = "spp",
+}
