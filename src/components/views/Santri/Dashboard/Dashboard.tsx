@@ -1,6 +1,6 @@
 "use client";
 import useProfile from "@/hooks/useProfile";
-import SantriTimeline from "@/components/santri/SantriTimeline";
+import SantriTimeline from "@/components/commons/santri/SantriTimeline";
 import { Card } from "@/components/ui/card";
 import { User, MapPin, FileText, CreditCard, Printer, School } from "lucide-react";
 import React from "react";

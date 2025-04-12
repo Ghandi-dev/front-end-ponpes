@@ -7,7 +7,7 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import useDataBerkas from "./useDataBerkas";
-import { FileUploadWithLabel } from "@/components/inputs/FileUploadWithLabel";
+import { FileUploadWithLabel } from "@/components/commons/inputs/FileUploadWithLabel";
 import { FileSchemaType } from "@/schemas/file.schema";
 
 const DataBerkas = () => {

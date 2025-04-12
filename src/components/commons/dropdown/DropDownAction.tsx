@@ -7,10 +7,18 @@ import { SquareMenu } from "lucide-react";
 interface PropTypes {
   onPressButtonDetail: () => void;
   onPressButtonDelete?: () => void;
+  onPressButtonActivate?: () => void;
+  hideButtonActivate?: boolean;
   hideButtonDelete?: boolean;
 }
 
-const DropdownAction = ({ onPressButtonDetail, onPressButtonDelete, hideButtonDelete = false }: PropTypes) => {
+const DropdownAction = ({
+  onPressButtonDetail,
+  onPressButtonDelete,
+  onPressButtonActivate,
+  hideButtonDelete = false,
+  hideButtonActivate = false,
+}: PropTypes) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -19,6 +27,7 @@ const DropdownAction = ({ onPressButtonDetail, onPressButtonDelete, hideButtonDe
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        {!hideButtonActivate && <DropdownMenuItem onClick={onPressButtonActivate}>Aktivasi</DropdownMenuItem>}
         <DropdownMenuItem onClick={onPressButtonDetail}>Detail</DropdownMenuItem>
         {!hideButtonDelete && (
           <DropdownMenuItem onClick={onPressButtonDelete} className="text-destructive focus:text-destructive">

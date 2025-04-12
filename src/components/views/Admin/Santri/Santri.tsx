@@ -4,7 +4,7 @@ import useSantri from "./useSantri";
 import DataTable from "@/components/table/DataTable";
 import { COLUMN_LIST_SANTRI } from "./Santri.constant";
 import { useRouter } from "next/navigation";
-import DropdownAction from "@/components/dropdown/DropDownAction";
+import DropdownAction from "@/components/commons/dropdown/DropDownAction";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import { Badge } from "@/components/ui/badge";
 import { SantriSelectSchemaType } from "@/schemas/santri.schema";
@@ -16,8 +16,9 @@ import DialogAddSantri from "./DialogAdd/DialogAddSantri";
 const Santri = () => {
   const router = useRouter();
   const { setUrl } = useChangeUrl();
-  const { dataSantri, isLoadingSantri, setSelectedId } = useSantri();
+  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status } = useSantri();
   const [open, setOpen] = useState(false);
+  console.log(dataSantri);
 
   useEffect(() => {
     setUrl();
@@ -30,12 +31,12 @@ const Santri = () => {
       switch (columnKey) {
         case "status":
           const statusClass = santri.status === SANTRI_STATUS.ACTIVE ? "bg-primary" : "bg-amber-400 text-accent-foreground";
-
           return <Badge className={cn(statusClass)}>{santri.status ?? "UNKNOWN"}</Badge>;
 
         case "actions":
           return (
             <DropdownAction
+              hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
               onPressButtonDelete={() => {
                 setSelectedId(santri.id as number);
                 // deleteCategoryModal.onOpen();
@@ -63,6 +64,10 @@ const Santri = () => {
         buttonTopContentLabel="Tambah Data Santri"
         onClickButtonTopContent={() => setOpen(true)}
         showLimit
+        showMultiSelect
+        optionMultiSelect={Object.values(SANTRI_STATUS).map((status) => ({ label: status, value: status }))}
+        onValueChange={setStatus}
+        defaultValue={status}
       />
       <DialogAddSantri open={open} onOpenChange={setOpen}>
         {/* Tempelkan form kamu di sini */}

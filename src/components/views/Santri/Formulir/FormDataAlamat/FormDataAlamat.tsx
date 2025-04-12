@@ -8,9 +8,9 @@ import useFormDataAlamat from "./useFormDataAlamat";
 import useRegions from "@/hooks/use-region";
 import { IRegions } from "@/types/Regions";
 import { Skeleton } from "@/components/ui/skeleton";
-import { InputWithLabel } from "@/components/inputs/InputWithLabel";
+import { InputWithLabel } from "@/components/commons/inputs/InputWithLabel";
 import { AddressSchemaType } from "@/schemas/address.schema";
-import { SelectPopoverWithLabel } from "@/components/inputs/SelectPopoverWithLabel";
+import { SelectPopoverWithLabel } from "@/components/commons/inputs/SelectPopoverWithLabel";
 interface PropTypes {
   refetchProfile: () => void;
 }

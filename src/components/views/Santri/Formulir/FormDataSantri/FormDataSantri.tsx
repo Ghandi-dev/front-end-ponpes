@@ -7,10 +7,10 @@ import { Spinner } from "@/components/ui/spinner";
 import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
 import useFormDataSantri from "./useFormDataSantri";
-import { InputWithLabel } from "@/components/inputs/InputWithLabel";
+import { InputWithLabel } from "@/components/commons/inputs/InputWithLabel";
 import { SantriInsertSchemaType } from "@/schemas/santri.schema";
-import { InputDateWithLabel } from "@/components/inputs/InputDateWithLabel";
-import { SelectWithLabel } from "@/components/inputs/SelectWithLabel";
+import { InputDateWithLabel } from "@/components/commons/inputs/InputDateWithLabel";
+import { SelectWithLabel } from "@/components/commons/inputs/SelectWithLabel";
 
 interface PropTypes {
   refetchProfile: () => void;

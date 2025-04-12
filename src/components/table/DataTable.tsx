@@ -8,6 +8,7 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { Search } from "lucide-react";
 import { LIMIT_LIST } from "@/constant/list.constants";
 import { DynamicPagination } from "../commons/dynamic-pagination/DynamicPagination";
+import { MultiSelect } from "../commons/multi-select/MultiSelect";
 
 interface PropTypes<S extends { id: string | number }> {
   buttonTopContentLabel?: string;
@@ -20,6 +21,10 @@ interface PropTypes<S extends { id: string | number }> {
   totalPages: number;
   showLimit?: boolean;
   showSearch?: boolean;
+  optionMultiSelect?: { label: string; value: string }[];
+  onValueChange?: (value: string[]) => void;
+  defaultValue?: string[];
+  showMultiSelect?: boolean;
 }
 
 const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
@@ -36,16 +41,30 @@ const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
     totalPages,
     showSearch = true,
     showLimit = true,
+    showMultiSelect = false,
+    optionMultiSelect,
+    onValueChange,
+    defaultValue,
   } = props;
 
   const topContent = useMemo(
     () => (
       <div className="flex flex-col-reverse items-start justify-between gap-4 lg:flex-row lg:items-center">
         {showSearch && (
-          <div className="relative w-full sm:max-w-[24%]">
+          <div className="relative w-full lg:max-w-[24%]">
             <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
             <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
           </div>
+        )}
+        {showMultiSelect && (
+          <MultiSelect
+            className="w-full lg:max-w-[40%]"
+            placeholder="Pilih Status"
+            maxCount={1}
+            onValueChange={onValueChange || (() => {})}
+            options={optionMultiSelect || []}
+            defaultValue={defaultValue}
+          />
         )}
         {buttonTopContentLabel && (
           <Button className="bg-primary" onClick={onClickButtonTopContent}>

@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { ComponentProps } from "react";
-import InputFile from "../ui/InputFile";
+import InputFile from "@/components/ui/InputFile";
 
 type Props<S> = {
   fieldTitle: string;
