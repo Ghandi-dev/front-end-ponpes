@@ -1,5 +1,5 @@
 "use client";
-import React, { Key, useCallback, useEffect, useState } from "react";
+import React, { Key, useCallback, useEffect, useMemo, useState } from "react";
 import DataTable from "@/components/table/DataTable";
 import { COLUMN_LIST_SANTRI } from "./Pembayaran.constant";
 import { useRouter } from "next/navigation";
@@ -7,16 +7,22 @@ import DropdownAction from "@/components/commons/dropdown/DropDownAction";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { SANTRI_STATUS, STATUS_PAYMENT } from "@/constant/status.constant";
+import { STATUS_PAYMENT, TYPE_PAYMENT } from "@/constant/status.constant";
 import { Button } from "@/components/ui/button";
 import usePembayaran from "./usePembayaran";
 import { SelectPaymentSchemaType } from "@/schemas/payment.schema";
+import { MenuSquare, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
+import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 
 const Pembayaran = () => {
   const router = useRouter();
-  const { setUrl } = useChangeUrl();
-  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status } = usePembayaran();
-  const [open, setOpen] = useState(false);
+  const { setUrl, handleChangeSearch } = useChangeUrl();
+  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type } = usePembayaran();
+
+  const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
+  const [isModalAddPembayaranOpen, setModalAddPembayaranOpen] = useState(false);
   console.log(dataPayment);
 
   useEffect(() => {
@@ -39,7 +45,7 @@ const Pembayaran = () => {
         case "actions":
           return (
             <DropdownAction
-              hideButtonActivate={payment?.status !== STATUS_PAYMENT.COMPLETED}
+              hideButtonActivate={true}
               onPressButtonDelete={() => {
                 setSelectedId(payment?.id as number);
                 // deleteCategoryModal.onOpen();
@@ -55,29 +61,65 @@ const Pembayaran = () => {
     [router, setSelectedId]
   );
 
+  const topContent = useMemo(
+    () => (
+      <div className="flex flex-col-reverse items-end justify-between gap-4 lg:flex-row lg:items-center">
+        <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:max-w-[70%]">
+          <div className="relative w-full lg:max-w-[30%]">
+            <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
+            <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
+          </div>
+          <Button className="bg-primary" onClick={() => setIsFilterDialogOpen(true)}>
+            Filter
+            <MenuSquare />
+          </Button>
+        </div>
+        <Button className="bg-primary " onClick={() => setModalAddPembayaranOpen(true)}>
+          {"Tambah Data Pembayaran"}
+        </Button>
+      </div>
+    ),
+    [handleChangeSearch]
+  );
+
   return (
     <div className="p-4">
       <DataTable<SelectPaymentSchemaType>
+        topContent={topContent}
         data={dataPayment?.data || []}
         isLoading={isLoadingPayment}
         columns={COLUMN_LIST_SANTRI}
         emptyContent="Tidak ada data"
         renderCell={renderCell}
         totalPages={dataPayment?.pagination?.totalPages}
-        buttonTopContentLabel="Tambah Data Payment"
-        onClickButtonTopContent={() => setOpen(true)}
         showLimit
-        showMultiSelect
-        optionMultiSelect={Object.values(STATUS_PAYMENT).map((status) => ({ label: status, value: status }))}
-        onValueChange={setStatus}
-        defaultValue={status}
       />
-      {/* <DialogAddPayment open={open} onOpenChange={setOpen}>
-        <div className="mt-4">
-          <p>Form Payment disini</p>
-          <Button onClick={() => setOpen(false)}>Simpan</Button>
+      <DynamicDialog open={isModalAddPembayaranOpen} onOpenChange={setModalAddPembayaranOpen} title="Tambah Pembayaran" isModal>
+        <div className="flex flex-col gap-4">
+          <p>Form Pembayaran</p>
+          {/* Add your form component here */}
         </div>
-      </DialogAddPayment> */}
+      </DynamicDialog>
+      <DynamicDialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen} title="Filter Pembayaran">
+        <div className="mt-4 flex flex-col gap-4">
+          <MultiSelect
+            className="w-full"
+            placeholder="Pilih Status"
+            maxCount={1}
+            onValueChange={setStatus || (() => {})}
+            options={Object.values(STATUS_PAYMENT).map((status) => ({ label: status, value: status })) || []}
+            defaultValue={status}
+          />
+          <MultiSelect
+            className="w-full"
+            placeholder="Pilih Tipe"
+            maxCount={1}
+            onValueChange={setType || (() => {})}
+            options={Object.values(TYPE_PAYMENT).map((status) => ({ label: status, value: status })) || []}
+            defaultValue={type}
+          />
+        </div>
+      </DynamicDialog>
     </div>
   );
 };

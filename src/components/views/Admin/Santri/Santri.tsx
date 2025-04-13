@@ -1,5 +1,5 @@
 "use client";
-import React, { Key, useCallback, useEffect, useState } from "react";
+import React, { Key, useCallback, useEffect, useMemo, useState } from "react";
 import useSantri from "./useSantri";
 import DataTable from "@/components/table/DataTable";
 import { COLUMN_LIST_SANTRI } from "./Santri.constant";
@@ -11,13 +11,17 @@ import { SantriSelectSchemaType } from "@/schemas/santri.schema";
 import { cn } from "@/lib/utils";
 import { SANTRI_STATUS } from "@/constant/status.constant";
 import { Button } from "@/components/ui/button";
-import DialogAddSantri from "./DialogAdd/DialogAddSantri";
+import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
+import { Input } from "@/components/ui/input";
+import { MenuSquare, Search } from "lucide-react";
+import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 
 const Santri = () => {
   const router = useRouter();
-  const { setUrl } = useChangeUrl();
-  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status } = useSantri();
-  const [open, setOpen] = useState(false);
+  const { setUrl, handleChangeSearch } = useChangeUrl();
+  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate } = useSantri();
+  const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   useEffect(() => {
     setUrl();
@@ -34,14 +38,23 @@ const Santri = () => {
 
         case "actions":
           return (
-            <DropdownAction
-              hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
-              onPressButtonDelete={() => {
-                setSelectedId(santri.id as number);
-                // deleteCategoryModal.onOpen();
-              }}
-              onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
-            />
+            <>
+              {!isPendingActivate ? (
+                <DropdownAction
+                  hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
+                  onPressButtonActivate={() => handleActivateSantri(santri.id as number)}
+                  onPressButtonDelete={() => {
+                    setSelectedId(santri.id as number);
+                    // deleteCategoryModal.onOpen();
+                  }}
+                  onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
+                />
+              ) : (
+                <Button variant="outline" className="w-full" disabled>
+                  Loading...
+                </Button>
+              )}
+            </>
           );
 
         default:
@@ -49,6 +62,27 @@ const Santri = () => {
       }
     },
     [router, setSelectedId]
+  );
+
+  const topContent = useMemo(
+    () => (
+      <div className="flex flex-col-reverse items-start justify-between gap-4 lg:flex-row lg:items-center">
+        <div className="flex items-center gap-4 w-full lg:max-w-[70%]">
+          <div className="relative w-full lg:max-w-[30%]">
+            <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
+            <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
+          </div>
+          <Button className="bg-primary" onClick={() => setFilterOpen(true)}>
+            Filter
+            <MenuSquare />
+          </Button>
+        </div>
+        <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
+          {"Tambah Data Pembayaran"}
+        </Button>
+      </div>
+    ),
+    [handleChangeSearch]
   );
 
   return (
@@ -60,21 +94,28 @@ const Santri = () => {
         emptyContent="Tidak ada data"
         renderCell={renderCell}
         totalPages={dataSantri?.pagination?.totalPages}
-        buttonTopContentLabel="Tambah Data Santri"
-        onClickButtonTopContent={() => setOpen(true)}
         showLimit
-        showMultiSelect
-        optionMultiSelect={Object.values(SANTRI_STATUS).map((status) => ({ label: status, value: status }))}
-        onValueChange={setStatus}
-        defaultValue={status}
+        topContent={topContent}
       />
-      <DialogAddSantri open={open} onOpenChange={setOpen}>
-        {/* Tempelkan form kamu di sini */}
-        <div className="mt-4">
-          <p>Form Santri disini</p>
-          <Button onClick={() => setOpen(false)}>Simpan</Button>
+      {/* Form Add Santri */}
+      <DynamicDialog title="Form Tambah Santri" open={openModalAddSantri} onOpenChange={setOpenModalAddSantri} isModal>
+        <div className="mt-4 flex flex-col gap-4">
+          <Input placeholder="Nama Santri" />
         </div>
-      </DialogAddSantri>
+      </DynamicDialog>
+      {/* Form Filter Santri */}
+      <DynamicDialog title="Filter" open={filterOpen} onOpenChange={setFilterOpen}>
+        <div className="mt-4 flex flex-col gap-4">
+          <MultiSelect
+            className="w-full"
+            placeholder="Pilih Status"
+            maxCount={1}
+            onValueChange={setStatus || (() => {})}
+            options={Object.values(SANTRI_STATUS).map((status) => ({ label: status, value: status })) || []}
+            defaultValue={status}
+          />
+        </div>
+      </DynamicDialog>
     </div>
   );
 };

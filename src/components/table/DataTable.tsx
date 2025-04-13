@@ -1,80 +1,26 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ReactNode, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import useChangeUrl from "@/hooks/useChangeUrl";
-import { Search } from "lucide-react";
 import { LIMIT_LIST } from "@/constant/list.constants";
 import { DynamicPagination } from "../commons/dynamic-pagination/DynamicPagination";
-import { MultiSelect } from "../commons/multi-select/MultiSelect";
 
 interface PropTypes<S extends { id: string | number }> {
-  buttonTopContentLabel?: string;
   columns: Record<string, unknown>[];
   data: S[];
   emptyContent: string;
   isLoading?: boolean;
-  onClickButtonTopContent?: () => void;
   renderCell: (item: S, columnKey: string) => ReactNode;
   totalPages: number;
   showLimit?: boolean;
-  showSearch?: boolean;
-  optionMultiSelect?: { label: string; value: string }[];
-  onValueChange?: (value: string[]) => void;
-  defaultValue?: string[];
-  showMultiSelect?: boolean;
+  topContent?: ReactNode;
 }
 
 const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
-  const { currentLimit, currentPage, handleChangeLimit, handleChangePage, handleChangeSearch, handleClearSearch } = useChangeUrl();
+  const { currentLimit, currentPage, handleChangeLimit, handleChangePage } = useChangeUrl();
 
-  const {
-    buttonTopContentLabel,
-    columns,
-    data,
-    emptyContent,
-    isLoading,
-    onClickButtonTopContent,
-    renderCell,
-    totalPages,
-    showSearch = true,
-    showLimit = true,
-    showMultiSelect = false,
-    optionMultiSelect,
-    onValueChange,
-    defaultValue,
-  } = props;
-
-  const topContent = useMemo(
-    () => (
-      <div className="flex flex-col-reverse items-start justify-between gap-4 lg:flex-row lg:items-center">
-        {showSearch && (
-          <div className="relative w-full lg:max-w-[24%]">
-            <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
-            <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
-          </div>
-        )}
-        {showMultiSelect && (
-          <MultiSelect
-            className="w-full lg:max-w-[40%]"
-            placeholder="Pilih Status"
-            maxCount={1}
-            onValueChange={onValueChange || (() => {})}
-            options={optionMultiSelect || []}
-            defaultValue={defaultValue}
-          />
-        )}
-        {buttonTopContentLabel && (
-          <Button className="bg-primary" onClick={onClickButtonTopContent}>
-            {buttonTopContentLabel}
-          </Button>
-        )}
-      </div>
-    ),
-    [buttonTopContentLabel, handleClearSearch, handleChangeSearch, onClickButtonTopContent]
-  );
+  const { columns, data, emptyContent, isLoading, renderCell, totalPages, showLimit = true, topContent } = props;
 
   const bottomContent = useMemo(
     () => (
