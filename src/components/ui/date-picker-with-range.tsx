@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { format, addDays, startOfMonth, endOfMonth, startOfYear, endOfYear } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
@@ -14,18 +13,25 @@ interface PropTypes {
   date: DateRange | undefined;
   setDate: (date: DateRange | undefined) => void;
   className?: string;
+  activeRange?: string | null;
+  setActiveRange?: (range: string | null) => void;
 }
 
 export function DatePickerWithRange(props: PropTypes) {
-  const { className, date, setDate } = props;
-  const [activeRange, setActiveRange] = React.useState<string | null>(null);
+  const { className, date, setDate, activeRange, setActiveRange } = props;
 
-  const handlePresetRange = (range: "7days" | "1month" | "1year") => {
+  const handlePresetRange = (range: "7days" | "30days" | "1month" | "1year" | "1yearAgo") => {
     const today = new Date();
     switch (range) {
       case "7days":
         setDate({
           from: addDays(today, -7),
+          to: today,
+        });
+        break;
+      case "30days":
+        setDate({
+          from: addDays(today, -30),
           to: today,
         });
         break;
@@ -41,8 +47,17 @@ export function DatePickerWithRange(props: PropTypes) {
           to: endOfYear(today),
         });
         break;
+      case "1yearAgo":
+        setDate({
+          from: addDays(today, -365),
+          to: today,
+        });
+        break;
     }
-    setActiveRange(range); // Set the active range
+
+    if (setActiveRange) {
+      setActiveRange(range); // Menyimpan range aktif (jika dipakai untuk style)
+    }
   };
 
   return (
@@ -80,15 +95,15 @@ export function DatePickerWithRange(props: PropTypes) {
         </Button>
         <Button
           variant="outline"
-          onClick={() => handlePresetRange("1month")}
-          className={cn("w-full", activeRange === "1month" && "bg-primary text-primary-foreground hover:bg-primary")}
+          onClick={() => handlePresetRange("30days")}
+          className={cn("w-full", activeRange === "30days" && "bg-primary text-primary-foreground hover:bg-primary")}
         >
-          1 Bulan
+          30 Hari
         </Button>
         <Button
           variant="outline"
-          onClick={() => handlePresetRange("1year")}
-          className={cn("w-full", activeRange === "1year" && "bg-primary text-primary-foreground hover:bg-primary")}
+          onClick={() => handlePresetRange("1yearAgo")}
+          className={cn("w-full", activeRange === "1yearAgo" && "bg-primary text-primary-foreground hover:bg-primary")}
         >
           1 Tahun
         </Button>

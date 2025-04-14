@@ -1,33 +1,36 @@
 "use client";
-import React, { Key, useCallback, useEffect, useMemo, useState } from "react";
-import DataTable from "@/components/table/DataTable";
-import { COLUMN_LIST_SANTRI } from "./Pembayaran.constant";
-import { useRouter } from "next/navigation";
-import DropdownAction from "@/components/commons/dropdown/DropDownAction";
-import useChangeUrl from "@/hooks/useChangeUrl";
+
 import { Badge } from "@/components/ui/badge";
+import useChangeUrl from "@/hooks/useChangeUrl";
 import { cn } from "@/lib/utils";
-import { STATUS_PAYMENT, TYPE_PAYMENT } from "@/constant/status.constant";
+import { SelectPaymentSchemaType, STATUS_PAYMENT } from "@/schemas/payment.schema";
+import { Key, useCallback, useEffect, useMemo, useState } from "react";
+import useSPP from "./useSPP";
+import { MenuSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import usePembayaran from "./usePembayaran";
-import { SelectPaymentSchemaType } from "@/schemas/payment.schema";
-import { MenuSquare, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
+import DataTable from "@/components/table/DataTable";
+import { COLUMN_LIST_PAYMENT } from "./SPP.constant";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
+import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
+import Script from "next/script";
+import environment from "@/config/environment";
 
-const Pembayaran = () => {
-  const router = useRouter();
+const SPP = () => {
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type, date, setDate } = usePembayaran();
+  const { dataPayment, isLoadingPayment, setStatus, status, date, setDate, handleMidtransSnap, orderId, transactionStatus, mutateUpdatePayment } = useSPP();
   const [activeRange, setActiveRange] = useState<string | null>("30days");
-
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
 
   useEffect(() => {
     setUrl();
   }, []);
+
+  useEffect(() => {
+    if (orderId && transactionStatus) {
+      mutateUpdatePayment();
+    }
+  }, [orderId, transactionStatus, mutateUpdatePayment]); // Mutate hanya jalan sekali saat orderId dan transactionStatus berubah
 
   const renderCell = useCallback(
     (payment: SelectPaymentSchemaType, columnKey: Key) => {
@@ -44,31 +47,25 @@ const Pembayaran = () => {
 
         case "actions":
           return (
-            <DropdownAction
-              hideButtonActivate={true}
-              onPressButtonDelete={() => {
-                setSelectedId(payment?.id as number);
-                // deleteCategoryModal.onOpen();
-              }}
-              onPressButtonDetail={() => router.push(`/admin/pembayaran/${payment?.id}`)}
-            />
+            <Button
+              disabled={payment?.status === STATUS_PAYMENT.COMPLETED}
+              className={cn("bg-primary")}
+              onClick={() => handleMidtransSnap(payment?.detail?.token)}
+            >
+              Bayar
+            </Button>
           );
-
         default:
           return cellValue as React.ReactNode;
       }
     },
-    [router, setSelectedId]
+    [handleMidtransSnap]
   );
 
   const topContent = useMemo(
     () => (
       <div className="flex flex-col-reverse items-end justify-between gap-4 lg:flex-row lg:items-center">
         <div className="flex items-center gap-4 w-full lg:max-w-[70%]">
-          <div className="relative w-full lg:max-w-[30%]">
-            <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
-            <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
-          </div>
           <Button className="bg-primary" onClick={() => setIsFilterDialogOpen(true)}>
             Filter
             <MenuSquare />
@@ -81,11 +78,17 @@ const Pembayaran = () => {
 
   return (
     <div className="p-4">
+      <Script
+        src={environment.MIDTRANS_SNAP_URL}
+        data-client-key={environment.MIDTRANS_CLIENT_KEY}
+        strategy="lazyOnload"
+        onLoad={() => console.log("Midtrans Snap loaded")}
+      />
       <DataTable<SelectPaymentSchemaType>
         topContent={topContent}
         data={dataPayment?.data || []}
         isLoading={isLoadingPayment}
-        columns={COLUMN_LIST_SANTRI}
+        columns={COLUMN_LIST_PAYMENT}
         emptyContent="Tidak ada data"
         renderCell={renderCell}
         totalPages={dataPayment?.pagination?.totalPages}
@@ -101,14 +104,6 @@ const Pembayaran = () => {
             options={Object.values(STATUS_PAYMENT).map((status) => ({ label: status, value: status })) || []}
             defaultValue={status}
           />
-          <MultiSelect
-            className="w-full"
-            placeholder="Pilih Tipe"
-            maxCount={1}
-            onValueChange={setType || (() => {})}
-            options={Object.values(TYPE_PAYMENT).map((status) => ({ label: status, value: status })) || []}
-            defaultValue={type}
-          />
           <DatePickerWithRange date={date} setDate={setDate} activeRange={activeRange} setActiveRange={setActiveRange} />
         </div>
       </DynamicDialog>
@@ -116,4 +111,4 @@ const Pembayaran = () => {
   );
 };
 
-export default Pembayaran;
+export default SPP;

@@ -5,7 +5,7 @@ const endpoint = {
   REGIONS: "/regions",
   MEDIA: "/media",
   FILE: "/files",
-  PAYMENT: "/payment",
+  PAYMENT: "/payments",
 };
 
 export default endpoint;

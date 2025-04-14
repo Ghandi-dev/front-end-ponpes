@@ -33,6 +33,7 @@ export const selectPaymentSchema = insertPaymentSchema.extend({
   id: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  detail: z.object({ token: z.string(), redirect_url: z.string() }),
   santri: santriSelectSchema,
 });
 

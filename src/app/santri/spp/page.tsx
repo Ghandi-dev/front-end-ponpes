@@ -1,7 +1,8 @@
+import SPP from "@/components/views/Santri/SPP/SPP";
 import React from "react";
 
 const page = () => {
-  return <div>page</div>;
+  return <SPP />;
 };
 
 export default page;

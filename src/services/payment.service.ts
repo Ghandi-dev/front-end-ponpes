@@ -3,9 +3,12 @@ import endpoint from "./endpoint.constants";
 import { IPaymentRequest } from "@/types/Payment";
 
 const paymentService = {
+  // admin
   getAll: (params: string) => instance.get(`${endpoint.PAYMENT}?${params}`),
-  createMe: (status: IPaymentRequest) => instance.post(`${endpoint.PAYMENT}`, status),
-  getMeRegistration: () => instance.get(`${endpoint.PAYMENT}/me-registration`),
+  // user
+  createMe: (status: IPaymentRequest) => instance.post(`my${endpoint.PAYMENT}`, status),
+  getMe: (params: string) => instance.get(`my${endpoint.PAYMENT}?${params}`),
+  getMeRegistration: () => instance.get(`my${endpoint.PAYMENT}/registration`),
   updateStatus: (orderId: string, status: string) => instance.put(`${endpoint.PAYMENT}/${orderId}/${status}`),
 };
 
