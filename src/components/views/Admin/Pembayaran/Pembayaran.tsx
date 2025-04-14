@@ -29,7 +29,6 @@ const Pembayaran = () => {
   });
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
-  const [isModalAddPembayaranOpen, setModalAddPembayaranOpen] = useState(false);
 
   useEffect(() => {
     setUrl();
@@ -80,9 +79,6 @@ const Pembayaran = () => {
             <MenuSquare />
           </Button>
         </div>
-        <Button className="bg-primary " onClick={() => setModalAddPembayaranOpen(true)}>
-          {"Tambah Data Pembayaran"}
-        </Button>
       </div>
     ),
     [handleChangeSearch]
@@ -100,12 +96,6 @@ const Pembayaran = () => {
         totalPages={dataPayment?.pagination?.totalPages}
         showLimit
       />
-      <DynamicDialog open={isModalAddPembayaranOpen} onOpenChange={setModalAddPembayaranOpen} title="Tambah Pembayaran" isModal>
-        <div className="flex flex-col gap-4">
-          <p>Form Pembayaran</p>
-          {/* Add your form component here */}
-        </div>
-      </DynamicDialog>
       <DynamicDialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen} title="Filter Pembayaran">
         <div className="mt-4 flex flex-col gap-4">
           <MultiSelect
