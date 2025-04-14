@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 const useSantri = () => {
   const [selectedId, setSelectedId] = useState<number>();
-  const [status, setStatus] = useState<string[]>([SANTRI_STATUS.ACTIVE]);
+  const [status, setStatus] = useState<string[]>();
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   const getSantri = async () => {

@@ -2,6 +2,7 @@ import environment from "@/config/environment";
 import { SessionExtended } from "@/types/Auth";
 import axios from "axios";
 import { getSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const isServer = typeof window === "undefined"; // Deteksi server-side
 
@@ -38,7 +39,15 @@ regionApiInstance.interceptors.request.use(
 // Interceptors response
 instance.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error)
+  async (error) => {
+    const status = error.response?.status;
+    if (status === 401 || status === 403) {
+      localStorage.removeItem("token");
+      signOut();
+    }
+
+    return Promise.reject(error);
+  }
 );
 
 // Interceptors request

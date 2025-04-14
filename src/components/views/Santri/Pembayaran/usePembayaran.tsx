@@ -86,8 +86,6 @@ const usePembayaran = () => {
   });
 
   const handleCreatePayment = (status: string) => {
-    console.log(status);
-
     if (status !== SANTRI_STATUS.FILES_COMPLETED) {
       toast.error("Anda belum menyelesaikan tahapan pendaftaran yang diperlukan untuk melakukan pembayaran.");
       return;

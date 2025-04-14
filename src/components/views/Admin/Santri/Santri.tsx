@@ -78,7 +78,7 @@ const Santri = () => {
           </Button>
         </div>
         <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
-          {"Tambah Data Pembayaran"}
+          {"Tambah Data Santri"}
         </Button>
       </div>
     ),
@@ -104,7 +104,7 @@ const Santri = () => {
         </div>
       </DynamicDialog>
       {/* Form Filter Santri */}
-      <DynamicDialog title="Filter" open={filterOpen} onOpenChange={setFilterOpen}>
+      <DynamicDialog title="Filter Santri" open={filterOpen} onOpenChange={setFilterOpen}>
         <div className="mt-4 flex flex-col gap-4">
           <MultiSelect
             className="w-full"

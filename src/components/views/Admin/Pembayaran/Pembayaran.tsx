@@ -15,15 +15,21 @@ import { MenuSquare, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
+import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
 
 const Pembayaran = () => {
   const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
   const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type } = usePembayaran();
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
   const [isModalAddPembayaranOpen, setModalAddPembayaranOpen] = useState(false);
-  console.log(dataPayment);
 
   useEffect(() => {
     setUrl();
@@ -64,7 +70,7 @@ const Pembayaran = () => {
   const topContent = useMemo(
     () => (
       <div className="flex flex-col-reverse items-end justify-between gap-4 lg:flex-row lg:items-center">
-        <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:max-w-[70%]">
+        <div className="flex items-center gap-4 w-full lg:max-w-[70%]">
           <div className="relative w-full lg:max-w-[30%]">
             <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
             <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
@@ -118,6 +124,7 @@ const Pembayaran = () => {
             options={Object.values(TYPE_PAYMENT).map((status) => ({ label: status, value: status })) || []}
             defaultValue={type}
           />
+          <DatePickerWithRange date={date} setDate={setDate} />
         </div>
       </DynamicDialog>
     </div>
