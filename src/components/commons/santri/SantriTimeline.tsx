@@ -8,6 +8,10 @@ const timelineSteps = [
   { key: SANTRI_STATUS.FILES_COMPLETED, label: "Upload Dokumen" },
   { key: SANTRI_STATUS.PAYMENT_COMPLETED, label: "Pembayaran" },
   { key: SANTRI_STATUS.RE_REGISTERED, label: "Daftar Ulang" },
+  { key: SANTRI_STATUS.ACTIVE, label: "Aktif" },
+  // { key: SANTRI_STATUS.INACTIVE, label: "Nonaktif" },
+  // { key: SANTRI_STATUS.REJECTED, label: "Ditolak" },
+  // { key: SANTRI_STATUS.CANCELED, label: "Dibatalkan" },
 ];
 
 export default function SantriTimeline({ currentStatus }: { currentStatus: string }) {

@@ -11,6 +11,7 @@ import { authOptions } from "@/config/authOptions";
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const session = await getServerSession(authOptions);
   const user = session?.user as IProfile | undefined;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

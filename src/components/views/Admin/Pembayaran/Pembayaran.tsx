@@ -16,17 +16,11 @@ import { Input } from "@/components/ui/input";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
-import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
 
 const Pembayaran = () => {
   const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type } = usePembayaran();
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type, date, setDate } = usePembayaran();
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
 

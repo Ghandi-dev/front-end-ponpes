@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
+import { format, addDays, startOfMonth, endOfMonth, startOfYear, endOfYear } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
@@ -18,6 +18,32 @@ interface PropTypes {
 
 export function DatePickerWithRange(props: PropTypes) {
   const { className, date, setDate } = props;
+  const [activeRange, setActiveRange] = React.useState<string | null>(null);
+
+  const handlePresetRange = (range: "7days" | "1month" | "1year") => {
+    const today = new Date();
+    switch (range) {
+      case "7days":
+        setDate({
+          from: addDays(today, -7),
+          to: today,
+        });
+        break;
+      case "1month":
+        setDate({
+          from: startOfMonth(today),
+          to: endOfMonth(today),
+        });
+        break;
+      case "1year":
+        setDate({
+          from: startOfYear(today),
+          to: endOfYear(today),
+        });
+        break;
+    }
+    setActiveRange(range); // Set the active range
+  };
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -42,6 +68,31 @@ export function DatePickerWithRange(props: PropTypes) {
           <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={2} />
         </PopoverContent>
       </Popover>
+
+      {/* Tombol preset untuk rentang tanggal */}
+      <div className="grid grid-cols-3 gap-2 mt-2">
+        <Button
+          variant="outline"
+          onClick={() => handlePresetRange("7days")}
+          className={cn("w-full", activeRange === "7days" && "bg-primary text-primary-foreground hover:bg-primary")}
+        >
+          7 Hari
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => handlePresetRange("1month")}
+          className={cn("w-full", activeRange === "1month" && "bg-primary text-primary-foreground hover:bg-primary")}
+        >
+          1 Bulan
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => handlePresetRange("1year")}
+          className={cn("w-full", activeRange === "1year" && "bg-primary text-primary-foreground hover:bg-primary")}
+        >
+          1 Tahun
+        </Button>
+      </div>
     </div>
   );
 }
