@@ -2,7 +2,7 @@
 import useChangeUrl from "@/hooks/useChangeUrl";
 import paymentService from "@/services/payment.service";
 import { useQuery } from "@tanstack/react-query";
-import { endOfMonth, startOfMonth } from "date-fns";
+import { addDays } from "date-fns";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -12,8 +12,8 @@ const usePembayaran = () => {
   const [type, setType] = useState<string[]>();
   const { currentLimit, currentPage, currentSearch } = useChangeUrl();
   const [date, setDate] = useState<DateRange | undefined>({
-    from: startOfMonth(new Date()), // Tanggal pertama bulan ini
-    to: endOfMonth(new Date()), // Tanggal terakhir bulan ini
+    from: new Date(addDays(new Date(), -30).setHours(0, 0, 0, 0)),
+    to: new Date(new Date().setHours(23, 59, 59, 999)),
   });
 
   const getPayment = async () => {

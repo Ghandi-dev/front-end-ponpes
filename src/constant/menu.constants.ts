@@ -1,4 +1,4 @@
-import { SquareTerminal, LayoutDashboard, FileText, CreditCard, Printer } from "lucide-react";
+import { SquareTerminal, LayoutDashboard, FileText, CreditCard, Printer, Wallet } from "lucide-react";
 const MENU_LIST_ADMIN = [
   {
     title: "Dashboard",
@@ -54,7 +54,7 @@ const MENU_LIST_SANTRI_ACTIVE = [
   {
     title: "SPP",
     url: "/santri/spp",
-    icon: SquareTerminal,
+    icon: Wallet,
   },
 ];
 

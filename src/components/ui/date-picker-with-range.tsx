@@ -25,32 +25,36 @@ export function DatePickerWithRange(props: PropTypes) {
     switch (range) {
       case "7days":
         setDate({
-          from: addDays(today, -7),
-          to: today,
+          from: new Date(addDays(today, -7).setHours(0, 0, 0, 0)),
+          to: new Date(today.setHours(23, 59, 59, 999)),
         });
         break;
+
       case "30days":
         setDate({
-          from: addDays(today, -30),
-          to: today,
+          from: new Date(addDays(today, -30).setHours(0, 0, 0, 0)),
+          to: new Date(today.setHours(23, 59, 59, 999)),
         });
         break;
+
       case "1month":
         setDate({
-          from: startOfMonth(today),
-          to: endOfMonth(today),
+          from: new Date(startOfMonth(today).setHours(0, 0, 0, 0)),
+          to: new Date(endOfMonth(today).setHours(23, 59, 59, 999)),
         });
         break;
+
       case "1year":
         setDate({
-          from: startOfYear(today),
-          to: endOfYear(today),
+          from: new Date(startOfYear(today).setHours(0, 0, 0, 0)),
+          to: new Date(endOfYear(today).setHours(23, 59, 59, 999)),
         });
         break;
+
       case "1yearAgo":
         setDate({
-          from: addDays(today, -365),
-          to: today,
+          from: new Date(addDays(today, -365).setHours(0, 0, 0, 0)),
+          to: new Date(today.setHours(23, 59, 59, 999)),
         });
         break;
     }

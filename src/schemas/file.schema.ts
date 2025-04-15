@@ -21,4 +21,7 @@ export const fileDefaultValues: FileSchemaType = {
   educationCertificate: "",
 };
 
+export const fileUpdateSchema = fileSchema.partial();
+
 export type FileSchemaType = z.infer<typeof fileSchema>;
+export type FileUpdateSchemaType = z.infer<typeof fileUpdateSchema>;
