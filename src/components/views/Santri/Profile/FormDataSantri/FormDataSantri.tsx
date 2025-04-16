@@ -8,28 +8,37 @@ import { Card } from "@/components/ui/card";
 import { useEffect } from "react";
 import useFormDataSantri from "./useFormDataSantri";
 import { InputWithLabel } from "@/components/commons/inputs/InputWithLabel";
-import { SantriInsertSchemaType } from "@/schemas/santri.schema";
+import { SantriInsertSchemaType, SantriSelectSchemaType } from "@/schemas/santri.schema";
 import { InputDateWithLabel } from "@/components/commons/inputs/InputDateWithLabel";
 import { SelectWithLabel } from "@/components/commons/inputs/SelectWithLabel";
 
 interface PropTypes {
   refetchProfile: () => void;
+  dataSantri: SantriSelectSchemaType | undefined;
+  isLoadingProfile: boolean;
 }
 
 const FormDataSantri = (props: PropTypes) => {
-  const { refetchProfile } = props;
-  const { form, dataSantri, isPendingUpdateSantri, handleUpdateSantri, isSuccessUpdateSantri } = useFormDataSantri();
+  const { refetchProfile, isLoadingProfile, dataSantri } = props;
+  const { form, isPendingUpdateSantri, handleUpdateSantri, isSuccessUpdateSantri } = useFormDataSantri();
 
   const {
     formState: { errors },
   } = form;
 
+  // Reset form hanya saat dataSantri berubah (misalnya pertama kali mount atau hasil refetch)
   useEffect(() => {
     if (dataSantri) {
       form.reset({ ...dataSantri, dateOfBirth: new Date(dataSantri.dateOfBirth) });
     }
-    if (isSuccessUpdateSantri) refetchProfile();
-  }, [refetchProfile, isSuccessUpdateSantri, dataSantri, form]);
+  }, [dataSantri, form]);
+
+  // Refetch hanya saat update sukses
+  useEffect(() => {
+    if (isSuccessUpdateSantri) {
+      refetchProfile(); // Setelah ini, dataSantri akan diperbarui dan useEffect di atas akan jalan
+    }
+  }, [isSuccessUpdateSantri, refetchProfile]);
 
   return (
     <Card className="p-4 border-none">
@@ -59,7 +68,7 @@ const FormDataSantri = (props: PropTypes) => {
             <InputWithLabel<SantriInsertSchemaType> fieldTitle="Kewarganegaraan" nameInSchema="nationality" />
           </div>
           <div className="flex justify-end">
-            <Button type="submit" className="w-full lg:max-w-xs" disabled={isPendingUpdateSantri}>
+            <Button type="submit" className="w-full lg:max-w-xs" disabled={isPendingUpdateSantri || isLoadingProfile}>
               {isPendingUpdateSantri ? <Spinner /> : "Simpan"}
             </Button>
           </div>

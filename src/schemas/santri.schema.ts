@@ -12,8 +12,10 @@ export const santriSchema = z.object({
   phoneNumber: z
     .string({ required_error: "Masukkan nomor telepon" })
     .trim()
-    .min(1, "Nomor telepon tidak boleh kosong")
-    .regex(/^\d+$/, "Nomor telepon harus berupa angka"),
+    .min(10, "Nomor telepon terlalu pendek")
+    .max(15, "Nomor telepon terlalu panjang")
+    .regex(/^(\+62|0)8[1-9][0-9]{6,9}$/, "Nomor telepon tidak valid"),
+
   familyCardNumber: z
     .string({ required_error: "Masukkan nomor kartu keluarga" })
     .trim()

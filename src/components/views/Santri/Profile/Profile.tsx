@@ -6,6 +6,7 @@ import FormDataSantri from "./FormDataSantri/FormDataSantri";
 import FormDataAlamat from "./FormDataAlamat/FormDataAlamat";
 import FormDataBerkas from "./FormDataBerkas/FormDataBerkas";
 import FormFoto from "./FormFoto/FormFoto";
+import { SantriSelectSchemaType } from "@/schemas/santri.schema";
 
 const Profile = () => {
   const { dataProfile, refetchProfile, isLoadingProfile } = useProfile();
@@ -22,7 +23,7 @@ const Profile = () => {
         <FormFoto dataProfile={dataProfile} refetchProfile={refetchProfile} isLoadingProfile={isLoadingProfile} />
       </TabsContent>
       <TabsContent value="santri">
-        <FormDataSantri refetchProfile={refetchProfile} />
+        <FormDataSantri refetchProfile={refetchProfile} dataSantri={dataProfile?.santri as SantriSelectSchemaType} isLoadingProfile={isLoadingProfile} />
       </TabsContent>
       <TabsContent value="address">
         <FormDataAlamat refetchProfile={refetchProfile} />

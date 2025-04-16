@@ -7,8 +7,11 @@ const useChangeUrl = () => {
   const searchParams = useSearchParams();
   const debounce = useDebounce();
 
-  const currentLimit = searchParams.get("limit") ?? LIMIT_DEFAULT;
-  const currentPage = searchParams.get("page") ?? PAGE_DEFAULT;
+  const limitParams = searchParams.get("limit");
+  const pageParams = searchParams.get("page");
+
+  const currentLimit = limitParams ?? LIMIT_DEFAULT;
+  const currentPage = pageParams ?? PAGE_DEFAULT;
   const currentSearch = searchParams.get("search") ?? "";
   const currentCategory = searchParams.get("category") ?? "";
   const currentIsOnline = searchParams.get("isOnline") ?? "";
@@ -80,6 +83,8 @@ const useChangeUrl = () => {
   };
 
   return {
+    limitParams,
+    pageParams,
     currentLimit,
     currentPage,
     currentSearch,

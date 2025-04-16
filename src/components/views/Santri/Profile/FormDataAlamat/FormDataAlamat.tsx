@@ -21,19 +21,22 @@ const FormDataAlamat = (props: PropTypes) => {
 
   const {
     formState: { errors },
-    setValue,
   } = form;
 
   useEffect(() => {
     if (dataAddress) {
       form.reset(dataAddress);
-      setProvinceId(dataAddress?.province);
-      setRegencyId(dataAddress?.city);
-      setDistrictId(dataAddress?.district);
+      setProvinceId(dataAddress.province);
+      setRegencyId(dataAddress.city);
+      setDistrictId(dataAddress.district);
     }
-    if (isSuccessUpdateAddress) refetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setValue, dataAddress, refetchProfile, form, isSuccessUpdateAddress]);
+  }, [dataAddress, form]);
+
+  useEffect(() => {
+    if (isSuccessUpdateAddress) {
+      refetchProfile();
+    }
+  }, [isSuccessUpdateAddress, refetchProfile]);
 
   return (
     <Card className="p-4 border-none">

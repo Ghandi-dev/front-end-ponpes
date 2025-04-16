@@ -6,9 +6,10 @@ import FormDataSantri from "./FormDataSantri/FormDataSantri";
 import FormDataAlamat from "./FormDataAlamat/FormDataAlamat";
 import FormDataBerkas from "./FormDataBerkas/FormDataBerkas";
 import { SANTRI_STATUS } from "@/constant/status.constant";
+import { SantriSelectSchemaType } from "@/schemas/santri.schema";
 
 const Formulir = () => {
-  const { dataProfile, refetchProfile } = useProfile();
+  const { dataProfile, refetchProfile, isLoadingProfile } = useProfile();
 
   return (
     <Tabs defaultValue="santri" className="w-full">
@@ -36,7 +37,7 @@ const Formulir = () => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="santri">
-        <FormDataSantri refetchProfile={refetchProfile} />
+        <FormDataSantri refetchProfile={refetchProfile} dataSantri={dataProfile?.santri as SantriSelectSchemaType} isLoadingProfile={isLoadingProfile} />
       </TabsContent>
       <TabsContent value="address">
         <FormDataAlamat refetchProfile={refetchProfile} />

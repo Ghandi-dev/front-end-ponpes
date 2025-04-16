@@ -10,7 +10,7 @@ import { toast } from "sonner";
 const useSantri = () => {
   const [selectedId, setSelectedId] = useState<number>();
   const [status, setStatus] = useState<string[]>();
-  const { currentLimit, currentPage, currentSearch } = useChangeUrl();
+  const { limitParams, pageParams, currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   const getSantri = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
@@ -28,7 +28,7 @@ const useSantri = () => {
   } = useQuery({
     queryKey: ["santri", currentLimit, currentPage, currentSearch, status],
     queryFn: getSantri,
-    enabled: !!currentLimit && !!currentPage,
+    enabled: !!limitParams && !!pageParams,
   });
 
   const activateSantri = async (santriId: number, payload: Partial<SantriSelectSchemaType>) => {
