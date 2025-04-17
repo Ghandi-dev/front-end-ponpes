@@ -21,6 +21,7 @@ const useSantri = () => {
     const res = await santriService.getAll(params);
     return res.data;
   };
+
   const {
     data: dataSantri,
     isLoading: isLoadingSantri,

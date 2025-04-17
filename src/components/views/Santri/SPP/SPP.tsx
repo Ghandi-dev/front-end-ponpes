@@ -39,6 +39,8 @@ const SPP = () => {
       switch (columnKey) {
         case "fullname":
           return <p>{payment?.santri?.fullname}</p>;
+        case "createdAt":
+          return <p>{new Date(payment?.createdAt).toLocaleDateString("id-ID")}</p>;
         case "amount":
           return <p>Rp{payment?.amount.toLocaleString("id-ID")}</p>;
         case "status":

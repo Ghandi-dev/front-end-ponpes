@@ -4,7 +4,6 @@ import useSantri from "./useSantri";
 import DataTable from "@/components/table/DataTable";
 import { COLUMN_LIST_SANTRI } from "./Santri.constant";
 import { useRouter } from "next/navigation";
-import DropdownAction from "@/components/commons/dropdown/DropDownAction";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import { Badge } from "@/components/ui/badge";
 import { SantriSelectSchemaType } from "@/schemas/santri.schema";
@@ -15,6 +14,7 @@ import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import { Input } from "@/components/ui/input";
 import { MenuSquare, Search } from "lucide-react";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
+import ButtonAction from "@/components/commons/button/ButtonAction";
 
 const Santri = () => {
   const router = useRouter();
@@ -38,30 +38,23 @@ const Santri = () => {
 
         case "actions":
           return (
-            <>
-              {!isPendingActivate ? (
-                <DropdownAction
-                  hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
-                  onPressButtonActivate={() => handleActivateSantri(santri.id as number)}
-                  onPressButtonDelete={() => {
-                    setSelectedId(santri.id as number);
-                    // deleteCategoryModal.onOpen();
-                  }}
-                  onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
-                />
-              ) : (
-                <Button variant="outline" className="w-full" disabled>
-                  Loading...
-                </Button>
-              )}
-            </>
+            <ButtonAction
+              hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
+              isPendingActivate={isPendingActivate}
+              onPressButtonActivate={() => handleActivateSantri(santri.id as number)}
+              onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
+              onPressButtonDelete={() => {
+                setSelectedId(santri.id as number);
+                // deleteCategoryModal.onOpen();
+              }}
+            />
           );
 
         default:
           return cellValue as React.ReactNode;
       }
     },
-    [router, setSelectedId]
+    [setSelectedId]
   );
 
   const topContent = useMemo(

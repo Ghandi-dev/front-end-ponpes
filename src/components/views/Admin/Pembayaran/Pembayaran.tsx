@@ -2,8 +2,6 @@
 import React, { Key, useCallback, useEffect, useMemo, useState } from "react";
 import DataTable from "@/components/table/DataTable";
 import { COLUMN_LIST_SANTRI } from "./Pembayaran.constant";
-import { useRouter } from "next/navigation";
-import DropdownAction from "@/components/commons/dropdown/DropDownAction";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -16,14 +14,17 @@ import { Input } from "@/components/ui/input";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
+import ButtonAction from "@/components/commons/button/ButtonAction";
+import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDelete";
 
 const Pembayaran = () => {
-  const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataPayment, isLoadingPayment, setSelectedId, setStatus, status, setType, type, date, setDate } = usePembayaran();
+  const { dataPayment, isLoadingPayment, selectedId, setSelectedId, setStatus, status, setType, type, date, setDate } = usePembayaran();
   const [activeRange, setActiveRange] = useState<string | null>("30days");
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
+  const [isDetailPembayaranDialogOpen, setIsDetailPembayaranDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     setUrl();
@@ -36,6 +37,8 @@ const Pembayaran = () => {
       switch (columnKey) {
         case "fullname":
           return <p>{payment?.santri?.fullname}</p>;
+        case "createdAt":
+          return <p>{new Date(payment?.createdAt).toLocaleDateString("id-ID")}</p>;
         case "amount":
           return <p>Rp{payment?.amount.toLocaleString("id-ID")}</p>;
         case "status":
@@ -44,13 +47,16 @@ const Pembayaran = () => {
 
         case "actions":
           return (
-            <DropdownAction
-              hideButtonActivate={true}
-              onPressButtonDelete={() => {
-                setSelectedId(payment?.id as number);
-                // deleteCategoryModal.onOpen();
+            <ButtonAction
+              // hideButtonActivate={true}
+              onPressButtonDetail={() => {
+                setSelectedId(payment?.santriId as number);
+                setIsDetailPembayaranDialogOpen(true);
               }}
-              onPressButtonDetail={() => router.push(`/admin/pembayaran/${payment?.id}`)}
+              onPressButtonDelete={() => {
+                setSelectedId(payment?.santriId as number);
+                setIsDeleteDialogOpen(true);
+              }}
             />
           );
 
@@ -58,7 +64,7 @@ const Pembayaran = () => {
           return cellValue as React.ReactNode;
       }
     },
-    [router, setSelectedId]
+    [setSelectedId]
   );
 
   const topContent = useMemo(
@@ -79,6 +85,12 @@ const Pembayaran = () => {
     [handleChangeSearch]
   );
 
+  const selectedPayment = useMemo(() => {
+    if (!Array.isArray(dataPayment?.data)) return null;
+
+    return dataPayment?.data.find((item: SelectPaymentSchemaType) => item.santriId === selectedId) as SelectPaymentSchemaType;
+  }, [dataPayment, selectedId]);
+
   return (
     <div className="p-4">
       <DataTable<SelectPaymentSchemaType>
@@ -91,6 +103,33 @@ const Pembayaran = () => {
         totalPages={dataPayment?.pagination?.totalPages}
         showLimit
       />
+      <DynamicDialog open={isDetailPembayaranDialogOpen} onOpenChange={setIsDetailPembayaranDialogOpen} title="Detail Pembayaran">
+        <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm">
+          <p className="font-medium text-muted-foreground">Nama Santri</p>
+          <p>{selectedPayment?.santri?.fullname}</p>
+
+          <p className="font-medium text-muted-foreground">ID Pembayaran</p>
+          <p>{selectedPayment?.paymentId}</p>
+
+          <p className="font-medium text-muted-foreground">Status</p>
+          <p>{selectedPayment?.status}</p>
+
+          <p className="font-medium text-muted-foreground">Jumlah</p>
+          <p>Rp{selectedPayment?.amount.toLocaleString("id-ID")}</p>
+
+          <p className="font-medium text-muted-foreground">Tipe</p>
+          <p>{selectedPayment?.type.toUpperCase()}</p>
+
+          <p className="font-medium text-muted-foreground">Catatan</p>
+          <p>{selectedPayment?.note}</p>
+
+          <p className="font-medium text-muted-foreground">Bulan / Tahun</p>
+          <p>
+            {selectedPayment?.month} / {selectedPayment?.year}
+          </p>
+        </div>
+      </DynamicDialog>
+
       <DynamicDialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen} title="Filter Pembayaran">
         <div className="mt-4 flex flex-col gap-4">
           <MultiSelect
@@ -112,6 +151,13 @@ const Pembayaran = () => {
           <DatePickerWithRange date={date} setDate={setDate} activeRange={activeRange} setActiveRange={setActiveRange} />
         </div>
       </DynamicDialog>
+      <AlertDialogDelete
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onClickDelete={() => alert("Delete")} // TODO: implement delete action
+        title="Konfirmasi Hapus"
+        description="Apakah kamu yakin ingin menghapus data ini?"
+      />
     </div>
   );
 };
