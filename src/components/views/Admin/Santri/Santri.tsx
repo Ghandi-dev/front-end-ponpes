@@ -15,11 +15,14 @@ import { Input } from "@/components/ui/input";
 import { MenuSquare, Search } from "lucide-react";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 import ButtonAction from "@/components/commons/button/ButtonAction";
+import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDelete";
 
 const Santri = () => {
   const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
   const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate } = useSantri();
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -45,7 +48,7 @@ const Santri = () => {
               onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
               onPressButtonDelete={() => {
                 setSelectedId(santri.id as number);
-                // deleteCategoryModal.onOpen();
+                setIsDeleteDialogOpen(true);
               }}
             />
           );
@@ -109,6 +112,14 @@ const Santri = () => {
           />
         </div>
       </DynamicDialog>
+      {/* Alert Dialog Delete */}
+      <AlertDialogDelete
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onClickDelete={() => alert("Delete")} // TODO: implement delete action
+        title="Konfirmasi Hapus"
+        description="Apakah kamu yakin ingin menghapus data ini?"
+      />
     </div>
   );
 };
