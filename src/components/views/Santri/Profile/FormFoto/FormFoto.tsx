@@ -40,13 +40,13 @@ const FormFoto = (props: PropTypes) => {
   }, [isSuccessUpdateUser, refetchProfile]);
 
   return (
-    <Card className="p-4 border-none w-fit">
+    <Card className="p-4 border-none w-full lg:flex justify-center items-center">
       <Form {...form}>
         <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(handleUpdatePhoto)}>
           <div className="flex flex-col items-start gap-2 text-center">
             <h1 className="text-md font-bold underline underline-offset-1 underline-primary decoration-primary">Foto</h1>
           </div>
-          <div className="grid grid-cols-1 gap-4 lg:max-w-[300px]">
+          <div className="grid grid-cols-1 gap-4 lg:w-[300px]">
             <div className="flex flex-col gap-2">
               {isLoadingProfile ? (
                 <Skeleton className="w-full h-40" />

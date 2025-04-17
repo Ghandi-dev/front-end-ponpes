@@ -20,6 +20,27 @@ export const userSchema = z.object({
   updatedAt: z.date().optional(),
 });
 
+const validatePassword = z
+  .string()
+  .min(6, "Password harus minimal 6 karakter")
+  .regex(/[A-Z]/, "Password harus mengandung setidaknya satu huruf kapital")
+  .regex(/\d/, "Password harus mengandung setidaknya satu angka");
+
+export const updatePasswordSchema = z
+  .object({
+    oldPassword: validatePassword,
+    password: validatePassword,
+    confirmPassword: validatePassword,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Konfirmasi password tidak cocok",
+  })
+  .refine((data) => data.password !== data.oldPassword, {
+    path: ["password"],
+    message: "Password baru tidak boleh sama dengan password lama",
+  });
+
 export const userSelectSchema = userSchema.extend({
   id: z.number(),
 });
@@ -49,3 +70,4 @@ export type UserPhoto = z.infer<typeof userPhotoSchema>;
 export type UserSelect = z.infer<typeof userSelectSchema>;
 export type UserInsert = z.infer<typeof userInsertSchema>;
 export type UserUpdate = z.infer<typeof userUpdateSchema>;
+export type UpdatePasswordSchemaType = z.infer<typeof updatePasswordSchema>;

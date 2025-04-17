@@ -39,9 +39,9 @@ const FormDataAdmin = (props: PropTypes) => {
   }, [isSuccessUpdateAdmin, refetchProfile]);
 
   return (
-    <Card className="p-4 border-none w-fit">
+    <Card className="p-4 border-none w-full lg:flex justify-center items-center">
       <Form {...form}>
-        <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(handleUpdateAdmin)}>
+        <form className="flex flex-col gap-6 w-full lg:w-2xl" onSubmit={form.handleSubmit(handleUpdateAdmin)}>
           <div className="flex flex-col items-start gap-2 text-center w-fit">
             <h1 className="text-md font-bold underline underline-offset-1 underline-primary decoration-primary">Data Admin</h1>
           </div>
@@ -51,7 +51,7 @@ const FormDataAdmin = (props: PropTypes) => {
             <InputWithLabel<AdminUpdateSchemaType> fieldTitle="Nomor Telepon" nameInSchema="phoneNumber" />
           </div>
           <div className="flex justify-end">
-            <Button type="submit" className="w-full lg:max-w-xs" disabled={isPendingUpdateAdmin || isLoadingProfile}>
+            <Button type="submit" className="w-full lg:max-w-fit" disabled={isPendingUpdateAdmin || isLoadingProfile}>
               {isPendingUpdateAdmin ? <Spinner /> : "Simpan"}
             </Button>
           </div>

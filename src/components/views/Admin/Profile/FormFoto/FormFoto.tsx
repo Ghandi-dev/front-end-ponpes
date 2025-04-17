@@ -40,7 +40,7 @@ const FormFoto = (props: PropTypes) => {
   }, [isSuccessUpdateUser, refetchProfile]);
 
   return (
-    <Card className="p-4 border-none w-fit">
+    <Card className="p-4 border-none w-full lg:flex justify-center items-center">
       <Form {...form}>
         <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(handleUpdatePhoto)}>
           <div className="flex flex-col items-start gap-2 text-center">

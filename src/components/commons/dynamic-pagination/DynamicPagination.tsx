@@ -30,30 +30,37 @@ export const DynamicPagination = ({ currentPage, totalPages, onChange }: Props) 
   };
 
   return (
-    <Pagination className="flex justify-end ">
-      <PaginationContent>
-        <PaginationItem className="hover:cursor-alias">
-          <PaginationPrevious onClick={() => onChange(Math.max(currentPage - 1, 1))} aria-disabled={currentPage === 1} />
-        </PaginationItem>
+    <>
+      {totalPages > 1 ? (
+        <Pagination className="flex justify-end ">
+          <PaginationContent>
+            {currentPage > 1 && (
+              <PaginationItem className="hover:cursor-alias">
+                <PaginationPrevious onClick={() => onChange(Math.max(currentPage - 1, 1))} aria-disabled={currentPage === 1} />
+              </PaginationItem>
+            )}
 
-        {getPages().map((item, index) =>
-          item === "start-ellipsis" || item === "end-ellipsis" ? (
-            <PaginationItem key={item + index}>
-              <PaginationEllipsis />
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={item}>
-              <PaginationLink isActive={item === currentPage} onClick={() => onChange(Number(item))}>
-                {item}
-              </PaginationLink>
-            </PaginationItem>
-          )
-        )}
-
-        <PaginationItem className="hover:cursor-alias">
-          <PaginationNext onClick={() => onChange(Math.min(currentPage + 1, totalPages))} aria-disabled={currentPage === totalPages} />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+            {getPages().map((item, index) =>
+              item === "start-ellipsis" || item === "end-ellipsis" ? (
+                <PaginationItem key={item + index}>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              ) : (
+                <PaginationItem key={item}>
+                  <PaginationLink isActive={item === currentPage} onClick={() => onChange(Number(item))}>
+                    {item}
+                  </PaginationLink>
+                </PaginationItem>
+              )
+            )}
+            {currentPage < totalPages && (
+              <PaginationItem className="hover:cursor-alias">
+                <PaginationNext onClick={() => onChange(Math.min(currentPage + 1, totalPages))} aria-disabled={currentPage === totalPages} />
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
+      ) : null}
+    </>
   );
 };

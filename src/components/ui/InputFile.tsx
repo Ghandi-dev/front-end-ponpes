@@ -87,7 +87,7 @@ const InputFile = (props: PropTypes) => {
         {!preview && !isUploading && (
           <div className="flex flex-col items-center justify-center gap-2 p-5">
             <Upload className="mb-2 h-10 w-10 text-gray-400" />
-            <p className="text-center text-sm font-semibold text-gray-500">{isDropable ? "Drop or click to upload" : "Click to upload"}</p>
+            <p className="text-center text-sm font-semibold text-gray-500">{isDropable ? "Drop atau klik untuk mengunggah" : "Klik untuk mengunggah"}</p>
           </div>
         )}
         {isUploading && (

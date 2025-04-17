@@ -42,13 +42,13 @@ const FormDataBerkas = (props: PropTypes) => {
   }, [isSuccessUpdateFiles, refetchFiles]);
 
   return (
-    <Card className="p-4 border-none w-fit">
+    <Card className="p-4 border-none w-full lg:flex justify-center items-center">
       <Form {...form}>
         <form className="flex flex-col gap-6" onSubmit={form.handleSubmit(handleUpdateFiles)}>
           <div className="flex flex-col items-start gap-2 text-center w-fit">
             <h1 className="text-md font-bold underline underline-offset-1 underline-primary decoration-primary">Data Berkas</h1>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:max-w-[800px]">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:w-[800px]">
             <div className="flex flex-col gap-2">
               {isLoadingFiles ? (
                 <Skeleton className="w-full h-40" />
@@ -115,7 +115,7 @@ const FormDataBerkas = (props: PropTypes) => {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button type="submit" className="w-full lg:max-w-xs" disabled={isPendingUpdateFiles}>
+            <Button type="submit" className="w-full lg:w-auto" disabled={isPendingUpdateFiles}>
               {isPendingUpdateFiles ? <Spinner /> : "Simpan"}
             </Button>
           </div>

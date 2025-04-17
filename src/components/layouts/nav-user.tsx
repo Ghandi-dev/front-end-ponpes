@@ -48,7 +48,7 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={dataProfile?.profilePicture as string} alt={"avatar"} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">AL</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{dataProfile?.santri ? dataProfile?.santri?.fullname : dataProfile?.admin?.fullname}</span>
@@ -65,14 +65,16 @@ export function NavUser() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <RectangleEllipsis />
-                Ubah Password
+                <Link href={`/${dataProfile?.role}/change-password`} className="flex items-center gap-2">
+                  <RectangleEllipsis />
+                  Ubah Kata Sandi
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <div className="flex w-full items-center gap-2 px-1 py-1.5 text-left text-sm" onClick={() => signOut({ callbackUrl: "/auth/login" })}>
-                <LogOut />
+                <LogOut className="text-red-500" />
                 Logout
               </div>
             </DropdownMenuItem>
