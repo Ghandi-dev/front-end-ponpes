@@ -44,7 +44,7 @@ const ButtonAction = ({
               <Eye className="w-4 h-4 text-blue-600" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="right" className="w-fit">
             <p>Detail</p>
           </TooltipContent>
         </Tooltip>
@@ -56,7 +56,7 @@ const ButtonAction = ({
                 <Trash2 className="w-4 h-4 text-destructive" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="right" className="w-fit">
               <p>Hapus</p>
             </TooltipContent>
           </Tooltip>

@@ -10,6 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import Image from "next/image";
 
 interface AlertDialogDeleteProps {
   onClickDelete: () => void;
@@ -26,7 +27,8 @@ const AlertDialogDelete = ({ onClickDelete, title, description, open, onOpenChan
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <Image src="/illustrations/undraw_warning_qn4r.svg" alt="warning" width={200} height={200} className="mx-auto" />
+          <AlertDialogDescription className="text-center">{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => onOpenChange(false)}>Batal</AlertDialogCancel>

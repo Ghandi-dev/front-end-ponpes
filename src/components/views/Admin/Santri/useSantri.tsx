@@ -54,6 +54,27 @@ const useSantri = () => {
     };
     activateSantriMutate({ santriId, payload });
   };
+
+  const deleteSantri = async (santriId: number) => {
+    const res = await santriService.delete(santriId);
+    return res.data;
+  };
+
+  const { mutate: deleteSantriMutate } = useMutation({
+    mutationFn: (santriId: number) => deleteSantri(santriId),
+    onSuccess: () => {
+      toast.success("Berhasil menghapus santri");
+      refetchSantri();
+    },
+    onError: (error) => {
+      toast.error(error.message || "Gagal menghapus santri");
+    },
+  });
+
+  const handleDeleteSantri = () => {
+    deleteSantriMutate(selectedId as number);
+  };
+
   return {
     dataSantri,
     selectedId,
@@ -63,6 +84,7 @@ const useSantri = () => {
     setStatus,
     isPendingActivate,
     handleActivateSantri,
+    handleDeleteSantri,
   };
 };
 

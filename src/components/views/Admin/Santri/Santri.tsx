@@ -20,7 +20,7 @@ import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDele
 const Santri = () => {
   const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate } = useSantri();
+  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate, handleDeleteSantri } = useSantri();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
@@ -116,7 +116,7 @@ const Santri = () => {
       <AlertDialogDelete
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-        onClickDelete={() => alert("Delete")} // TODO: implement delete action
+        onClickDelete={handleDeleteSantri} // TODO: implement delete action
         title="Konfirmasi Hapus"
         description="Apakah kamu yakin ingin menghapus data ini?"
       />

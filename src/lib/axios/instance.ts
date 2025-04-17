@@ -40,10 +40,16 @@ regionApiInstance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log("🚀 ~ file: instance.ts:45 ~ error:", error);
+
     const status = error.response?.status;
+
     if (status === 401 || status === 403) {
-      localStorage.removeItem("token");
-      signOut();
+      const token = localStorage.getItem("token");
+      if (token) {
+        localStorage.removeItem("token");
+        await signOut();
+      }
     }
 
     return Promise.reject(error);

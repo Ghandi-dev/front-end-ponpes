@@ -64,7 +64,7 @@ export function NavUser() {
                   Profile
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href={`/${dataProfile?.role}/change-password`} className="flex items-center gap-2">
                   <RectangleEllipsis />
                   Ubah Kata Sandi

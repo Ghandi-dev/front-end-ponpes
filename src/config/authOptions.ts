@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: Record<"email" | "password", string> | undefined): Promise<UserExtended | null> {
         const { email, password } = credentials as { email: string; password: string };
         const result = await authServices.login({ email, password });
+
         const accessToken = result.data.data;
         const me = await authServices.getProfileWithToken(accessToken);
         const user = me.data.data;

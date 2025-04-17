@@ -8,6 +8,7 @@ const santriService = {
   update: async (santriId: number, payload: Partial<SantriInsertSchemaType>) => instance.put(`${endpoint.SANTRI}/${santriId}`, payload),
   getMe: async () => instance.get(`${endpoint.SANTRI}/me/details`),
   updateMe: async (payload: SantriInsertSchemaType) => instance.put(`${endpoint.SANTRI}/me/details`, payload),
+  delete: async (santriId: number) => instance.delete(`${endpoint.SANTRI}/${santriId}`),
 };
 
 export default santriService;

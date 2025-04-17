@@ -26,7 +26,7 @@ const useLogin = () => {
 
   const loginService = async (payload: ILogin) => {
     const result = await signIn("credentials", { ...payload, redirect: false, callbackUrl });
-    if (result?.error && result.status === 401) throw new Error("Email atau password salah");
+    if (result?.error && result.status === 401) throw new Error("Email atau password salah atau tidak terdaftar");
   };
 
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({

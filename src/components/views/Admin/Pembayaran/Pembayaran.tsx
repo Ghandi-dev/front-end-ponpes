@@ -15,7 +15,6 @@ import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 import { DatePickerWithRange } from "@/components/ui/date-picker-with-range";
 import ButtonAction from "@/components/commons/button/ButtonAction";
-import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDelete";
 
 const Pembayaran = () => {
   const { setUrl, handleChangeSearch } = useChangeUrl();
@@ -24,7 +23,6 @@ const Pembayaran = () => {
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
   const [isDetailPembayaranDialogOpen, setIsDetailPembayaranDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     setUrl();
@@ -53,10 +51,7 @@ const Pembayaran = () => {
                 setSelectedId(payment?.santriId as number);
                 setIsDetailPembayaranDialogOpen(true);
               }}
-              onPressButtonDelete={() => {
-                setSelectedId(payment?.santriId as number);
-                setIsDeleteDialogOpen(true);
-              }}
+              hideButtonDelete={true}
             />
           );
 
@@ -151,13 +146,6 @@ const Pembayaran = () => {
           <DatePickerWithRange date={date} setDate={setDate} activeRange={activeRange} setActiveRange={setActiveRange} />
         </div>
       </DynamicDialog>
-      <AlertDialogDelete
-        open={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        onClickDelete={() => alert("Delete")} // TODO: implement delete action
-        title="Konfirmasi Hapus"
-        description="Apakah kamu yakin ingin menghapus data ini?"
-      />
     </div>
   );
 };
