@@ -7,6 +7,7 @@ const endpoint = {
   FILE: "/files",
   PAYMENT: "/payments",
   ADMIN: "/admin",
+  DASHBOARD: "/dashboard",
 };
 
 export default endpoint;

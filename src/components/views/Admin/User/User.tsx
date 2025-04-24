@@ -16,8 +16,10 @@ import { RegisterAdminSchemaType } from "@/schemas/user.schema";
 import { cn } from "@/lib/utils";
 import { Form } from "@/components/ui/form";
 import { InputPasswordWithLabel } from "@/components/commons/inputs/InputPasswordWithLabel";
+import useProfile from "@/hooks/useProfile";
 
 const User = () => {
+  const { dataProfile } = useProfile();
   const { dataUser, isLoadingUser, selectedId, setSelectedId, handleDeleteUser, form, handleCreateUser } = useUser();
   const { setUrl, handleChangeSearch } = useChangeUrl();
 
@@ -35,13 +37,13 @@ const User = () => {
     return dataUser?.data.find((item: AdminSelectSchemaType) => item.id === selectedId) as AdminSelectSchemaType;
   }, [dataUser, selectedId]);
 
-  console.log("dataUser", dataUser?.data);
-
   const renderCell = useCallback(
     (admin: AdminSelectSchemaType, columnKey: Key) => {
       const cellValue = typeof columnKey === "string" && columnKey in admin ? admin[columnKey as keyof typeof admin] : null;
 
       switch (columnKey) {
+        case "phoneNumber":
+          return admin.phoneNumber || "-";
         case "actions":
           return (
             <ButtonAction
@@ -83,7 +85,7 @@ const User = () => {
   return (
     <div className="p-4">
       <DataTable<AdminSelectSchemaType>
-        data={dataUser?.data || []}
+        data={(dataUser?.data || []).filter((item: AdminSelectSchemaType) => item.fullname !== dataProfile?.admin?.fullname)}
         isLoading={isLoadingUser}
         columns={COLUMN_LIST_USER}
         emptyContent="Tidak ada data"
