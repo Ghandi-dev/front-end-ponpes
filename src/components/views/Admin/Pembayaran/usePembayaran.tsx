@@ -10,7 +10,7 @@ const usePembayaran = () => {
   const [selectedId, setSelectedId] = useState<number>();
   const [status, setStatus] = useState<string[]>();
   const [type, setType] = useState<string[]>();
-  const { limitParams, pageParams, currentLimit, currentPage, currentSearch } = useChangeUrl();
+  const { currentLimit, currentPage, currentSearch } = useChangeUrl();
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(addDays(new Date(), -30).setHours(0, 0, 0, 0)),
     to: new Date(new Date().setHours(23, 59, 59, 999)),
@@ -34,8 +34,18 @@ const usePembayaran = () => {
   const { data: dataPayment, isLoading: isLoadingPayment } = useQuery({
     queryKey: ["payment", currentLimit, currentPage, currentSearch, status, type, date],
     queryFn: getPayment,
-    enabled: !!limitParams && !!pageParams,
+    enabled: !!currentLimit && !!currentPage,
   });
+
+  const handlePrint = () => {
+    if (!dataPayment) return;
+
+    // Simpan data ke sessionStorage
+    sessionStorage.setItem("paymentData", JSON.stringify(dataPayment));
+
+    // Buka tab baru ke halaman cetak
+    window.open("/cetak-data-pembayaran", "_blank");
+  };
 
   return {
     dataPayment,
@@ -48,6 +58,7 @@ const usePembayaran = () => {
     setType,
     date,
     setDate,
+    handlePrint,
   };
 };
 

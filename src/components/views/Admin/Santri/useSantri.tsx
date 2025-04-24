@@ -10,7 +10,7 @@ import { toast } from "sonner";
 const useSantri = () => {
   const [selectedId, setSelectedId] = useState<number>();
   const [status, setStatus] = useState<string[]>();
-  const { limitParams, pageParams, currentLimit, currentPage, currentSearch } = useChangeUrl();
+  const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
   const getSantri = async () => {
     let params = `limit=${currentLimit}&page=${currentPage}`;
@@ -29,7 +29,7 @@ const useSantri = () => {
   } = useQuery({
     queryKey: ["santri", currentLimit, currentPage, currentSearch, status],
     queryFn: getSantri,
-    enabled: !!limitParams && !!pageParams,
+    enabled: !!currentLimit && !!currentPage,
   });
 
   const activateSantri = async (santriId: number, payload: Partial<SantriSelectSchemaType>) => {
@@ -75,6 +75,16 @@ const useSantri = () => {
     deleteSantriMutate(selectedId as number);
   };
 
+  const handlePrint = () => {
+    if (!dataSantri) return;
+
+    // Simpan data ke sessionStorage
+    sessionStorage.setItem("santriData", JSON.stringify(dataSantri));
+
+    // Buka tab baru ke halaman cetak
+    window.open("/cetak-data-santri", "_blank");
+  };
+
   return {
     dataSantri,
     selectedId,
@@ -85,6 +95,7 @@ const useSantri = () => {
     isPendingActivate,
     handleActivateSantri,
     handleDeleteSantri,
+    handlePrint,
   };
 };
 

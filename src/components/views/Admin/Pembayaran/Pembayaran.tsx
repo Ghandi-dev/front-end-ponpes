@@ -9,7 +9,7 @@ import { STATUS_PAYMENT, TYPE_PAYMENT } from "@/constant/status.constant";
 import { Button } from "@/components/ui/button";
 import usePembayaran from "./usePembayaran";
 import { SelectPaymentSchemaType } from "@/schemas/payment.schema";
-import { MenuSquare, Search } from "lucide-react";
+import { MenuSquare, Printer, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
@@ -18,7 +18,7 @@ import ButtonAction from "@/components/commons/button/ButtonAction";
 
 const Pembayaran = () => {
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataPayment, isLoadingPayment, selectedId, setSelectedId, setStatus, status, setType, type, date, setDate } = usePembayaran();
+  const { dataPayment, isLoadingPayment, selectedId, setSelectedId, setStatus, status, setType, type, date, setDate, handlePrint } = usePembayaran();
   const [activeRange, setActiveRange] = useState<string | null>("30days");
 
   const [isFilterDialogOpen, setIsFilterDialogOpen] = useState(false);
@@ -74,10 +74,14 @@ const Pembayaran = () => {
             Filter
             <MenuSquare />
           </Button>
+          <Button className="bg-primary" onClick={() => handlePrint()}>
+            Cetak
+            <Printer />
+          </Button>
         </div>
       </div>
     ),
-    [handleChangeSearch]
+    [handleChangeSearch, handlePrint]
   );
 
   const selectedPayment = useMemo(() => {

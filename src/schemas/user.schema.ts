@@ -63,6 +63,24 @@ export const userPhotoSchema = userSchema.pick({
   profilePicture: true,
 });
 
+export const registerAdmin = z
+  .object({
+    email: z.string().email("Email tidak valid"),
+    password: validatePassword,
+    confirmPassword: z.string().min(6, "Password minimal 6 karakter"),
+    fullname: z.string().min(1, "Nama lengkap tidak boleh kosong"),
+    phoneNumber: z
+      .string()
+      .min(10, "Nomor telepon terlalu pendek")
+      .max(15, "Nomor telepon terlalu panjang")
+      .regex(/^(\+62|0)8[1-9][0-9]{6,9}$/, "Nomor telepon tidak valid")
+      .optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Konfirmasi password tidak cocok",
+  });
+
 export const userUpdateSchema = userSchema.partial();
 
 export type User = z.infer<typeof userSchema>;
@@ -71,3 +89,4 @@ export type UserSelect = z.infer<typeof userSelectSchema>;
 export type UserInsert = z.infer<typeof userInsertSchema>;
 export type UserUpdate = z.infer<typeof userUpdateSchema>;
 export type UpdatePasswordSchemaType = z.infer<typeof updatePasswordSchema>;
+export type RegisterAdminSchemaType = z.infer<typeof registerAdmin>;

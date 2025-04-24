@@ -12,7 +12,7 @@ import { SANTRI_STATUS, SANTRI_STATUS_LABELS } from "@/constant/status.constant"
 import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import { Input } from "@/components/ui/input";
-import { MenuSquare, Search } from "lucide-react";
+import { MenuSquare, Printer, Search } from "lucide-react";
 import DynamicDialog from "@/components/commons/dialog/DynamicDialog";
 import ButtonAction from "@/components/commons/button/ButtonAction";
 import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDelete";
@@ -20,7 +20,8 @@ import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDele
 const Santri = () => {
   const router = useRouter();
   const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate, handleDeleteSantri } = useSantri();
+  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate, handleDeleteSantri, handlePrint } =
+    useSantri();
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
@@ -72,10 +73,14 @@ const Santri = () => {
             Filter
             <MenuSquare />
           </Button>
+          <Button className="bg-primary" onClick={() => handlePrint()}>
+            Cetak
+            <Printer />
+          </Button>
         </div>
-        <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
+        {/* <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
           {"Tambah Data Santri"}
-        </Button>
+        </Button> */}
       </div>
     ),
     [handleChangeSearch]

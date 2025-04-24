@@ -16,8 +16,8 @@ const MENU_LIST_ADMIN = [
     icon: SquareTerminal,
   },
   {
-    title: "Laporan",
-    url: "/admin/laporan",
+    title: "User",
+    url: "/admin/user",
     icon: SquareTerminal,
   },
 ];
