@@ -60,7 +60,7 @@ const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading || data.length === 0 ? (
+            {isLoading ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="text-center py-10">
                   <div className="flex justify-center">

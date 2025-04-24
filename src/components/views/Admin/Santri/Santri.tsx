@@ -8,7 +8,7 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { Badge } from "@/components/ui/badge";
 import { SantriSelectSchemaType } from "@/schemas/santri.schema";
 import { cn } from "@/lib/utils";
-import { SANTRI_STATUS } from "@/constant/status.constant";
+import { SANTRI_STATUS, SANTRI_STATUS_LABELS } from "@/constant/status.constant";
 import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/commons/multi-select/MultiSelect";
 import { Input } from "@/components/ui/input";
@@ -107,11 +107,17 @@ const Santri = () => {
             placeholder="Pilih Status"
             maxCount={1}
             onValueChange={setStatus || (() => {})}
-            options={Object.values(SANTRI_STATUS).map((status) => ({ label: status, value: status })) || []}
+            options={
+              Object.values(SANTRI_STATUS).map((status) => ({
+                label: SANTRI_STATUS_LABELS[status],
+                value: status,
+              })) || []
+            }
             defaultValue={status}
           />
         </div>
       </DynamicDialog>
+
       {/* Alert Dialog Delete */}
       <AlertDialogDelete
         open={isDeleteDialogOpen}
