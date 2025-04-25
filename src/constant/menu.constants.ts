@@ -1,24 +1,24 @@
-import { SquareTerminal, LayoutDashboard, FileText, CreditCard, Printer, Wallet } from "lucide-react";
+import { LayoutDashboard, FileText, CreditCard, Printer, Wallet, Users, UserCog } from "lucide-react";
 const MENU_LIST_ADMIN = [
   {
     title: "Dashboard",
     url: "/admin/dashboard",
-    icon: SquareTerminal,
+    icon: LayoutDashboard,
   },
   {
     title: "Santri",
     url: "/admin/santri",
-    icon: SquareTerminal,
+    icon: Users,
   },
   {
     title: "Pembayaran",
     url: "/admin/pembayaran",
-    icon: SquareTerminal,
+    icon: Wallet,
   },
   {
     title: "User",
     url: "/admin/user",
-    icon: SquareTerminal,
+    icon: UserCog,
   },
 ];
 

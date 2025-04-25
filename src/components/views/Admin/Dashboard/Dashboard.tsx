@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div className="flex flex-col gap-4 md:gap-6 px-4">
       <Alert className="border-primary">
         <AlertDescription className="flex justify-center">
-          <h1 className="text-lg text-center">Selamat Datang Di Sistem Informasi Administrasi Ponpes Al-Muthohhar</h1>
+          <h1 className="text-lg text-center font-bold text-black">Selamat Datang Di Sistem Informasi Administrasi Ponpes Al-Muthohhar</h1>
         </AlertDescription>
       </Alert>
       <SectionCard

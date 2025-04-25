@@ -28,10 +28,13 @@ const FormDataSantri = (props: PropTypes) => {
 
   useEffect(() => {
     if (dataSantri) {
-      form.reset({
-        ...dataSantri,
-        dateOfBirth: new Date(dataSantri.dateOfBirth),
-      });
+      form.reset({ fullname: dataSantri.fullname });
+      if (dataSantri.dateOfBirth) {
+        form.reset({
+          ...dataSantri,
+          dateOfBirth: new Date(dataSantri.dateOfBirth),
+        });
+      }
     }
   }, [dataSantri, form]);
 

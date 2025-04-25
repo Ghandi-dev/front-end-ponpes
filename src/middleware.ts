@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
   });
   const { pathname } = request.nextUrl;
 
-  const isPublicPath = ["/auth/login", "/auth/register"].includes(pathname);
+  const isPublicPath = ["/auth/login", "/auth/register", "/auth/register/success", "/auth/activation"].includes(pathname);
 
   // Redirect user yang sudah login dari halaman publik ke dashboard sesuai role
   if (token && (isPublicPath || pathname === "/")) {

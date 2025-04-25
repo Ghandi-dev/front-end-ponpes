@@ -42,7 +42,7 @@ const DataTable = <S extends { id: string | number }>(props: PropTypes<S>) => {
         {totalPages >= 1 && <DynamicPagination currentPage={+currentPage} onChange={handleChangePage} totalPages={totalPages} />}
       </div>
     ),
-    [currentLimit, currentPage, handleChangeLimit, handleChangePage, totalPages]
+    [currentLimit, currentPage, handleChangeLimit, handleChangePage, showLimit, totalPages]
   );
 
   return (
