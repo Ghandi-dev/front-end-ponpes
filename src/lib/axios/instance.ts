@@ -6,8 +6,10 @@ import { signOut } from "next-auth/react";
 
 const isServer = typeof window === "undefined"; // Deteksi server-side
 
-const API_URL = isServer ? "http://localhost:3001/api" : environment.API_URL;
-const REGION_API_URL = isServer ? "http://localhost:3001/api/regions" : environment.REGION_API_URL;
+// const API_URL = isServer ? "http://localhost:3001/api" : environment.API_URL;
+// const REGION_API_URL = isServer ? "http://localhost:3001/api/regions" : environment.REGION_API_URL;
+const API_URL = environment.API_URL;
+const REGION_API_URL = environment.REGION_API_URL;
 
 const headers = {
   "Content-Type": "application/json",

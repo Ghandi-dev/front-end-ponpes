@@ -29,6 +29,7 @@ const Santri = () => {
 
   useEffect(() => {
     setUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderCell = useCallback(
@@ -58,6 +59,7 @@ const Santri = () => {
           return cellValue as React.ReactNode;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setSelectedId]
   );
 

@@ -16,10 +16,17 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/c
 import { signOut } from "next-auth/react";
 import useProfile from "@/hooks/useProfile";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { dataProfile } = useProfile();
+  const { dataProfile, refetchProfile } = useProfile();
+
+  useEffect(() => {
+    if (!dataProfile) {
+      refetchProfile();
+    }
+  }, [dataProfile, refetchProfile]);
 
   return (
     <SidebarMenu>

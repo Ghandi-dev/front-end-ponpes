@@ -26,6 +26,7 @@ const Pembayaran = () => {
 
   useEffect(() => {
     setUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderCell = useCallback(

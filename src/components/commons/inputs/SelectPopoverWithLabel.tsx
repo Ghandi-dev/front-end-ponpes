@@ -20,9 +20,18 @@ type Props<S> = {
   placeholder?: string;
   searchable?: boolean;
   className?: string;
+  onChange?: (value: string) => void; // 🆕 Tambahkan onChange di props
 };
 
-export function SelectPopoverWithLabel<S>({ fieldTitle, nameInSchema, options, placeholder = "Pilih opsi", searchable = false }: Props<S>) {
+export function SelectPopoverWithLabel<S>({
+  fieldTitle,
+  nameInSchema,
+  options,
+  placeholder = "Pilih opsi",
+  searchable = false,
+  className,
+  onChange, // 🆕 Ambil onChange dari props
+}: Props<S>) {
   const form = useFormContext();
 
   return (
@@ -38,7 +47,7 @@ export function SelectPopoverWithLabel<S>({ fieldTitle, nameInSchema, options, p
                 <Button
                   variant="outline"
                   role="combobox"
-                  className={cn("w-full justify-between border-primary-foreground", !field.value && "text-muted-foreground")}
+                  className={cn("w-full justify-between border-primary-foreground", !field.value && "text-muted-foreground", className)}
                 >
                   {options.find((opt) => opt.value === field.value)?.label || placeholder}
                   <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
@@ -52,7 +61,14 @@ export function SelectPopoverWithLabel<S>({ fieldTitle, nameInSchema, options, p
                   <CommandEmpty>Tidak ada data</CommandEmpty>
                   <CommandGroup>
                     {options.map((opt) => (
-                      <CommandItem value={opt.value} key={opt.value} onSelect={() => field.onChange(opt.value)}>
+                      <CommandItem
+                        value={opt.value}
+                        key={opt.value}
+                        onSelect={() => {
+                          field.onChange(opt.value); // ubah nilai di form
+                          onChange?.(opt.value); // 🆕 panggil props onChange kalau ada
+                        }}
+                      >
                         {opt.label}
                         <Check className={cn("ml-auto h-4 w-4", opt.value === field.value ? "opacity-100" : "opacity-0")} />
                       </CommandItem>

@@ -50,7 +50,7 @@ const FormDataAlamat = (props: PropTypes) => {
             <InputWithLabel<AddressSchemaType> fieldTitle="RT" nameInSchema="rt" />
             <InputWithLabel<AddressSchemaType> fieldTitle="RW" nameInSchema="rw" />
             <InputWithLabel<AddressSchemaType> fieldTitle="Kode POS" nameInSchema="postalCode" />
-            {dataAddress && dataProvinces.length > 0 ? (
+            {dataProvinces.length > 0 ? (
               <SelectPopoverWithLabel<AddressSchemaType>
                 fieldTitle="Provinsi"
                 nameInSchema="province"
@@ -58,6 +58,12 @@ const FormDataAlamat = (props: PropTypes) => {
                   label: data.name,
                   value: `${data.id}`,
                 }))}
+                onChange={(value) => {
+                  setProvinceId(value);
+                  form.setValue("city", "");
+                  form.setValue("district", "");
+                  form.setValue("village", "");
+                }}
               />
             ) : (
               <div className="">
@@ -73,6 +79,11 @@ const FormDataAlamat = (props: PropTypes) => {
                   label: data.name,
                   value: `${data.id}`,
                 }))}
+                onChange={(value) => {
+                  setRegencyId(value);
+                  form.setValue("district", "");
+                  form.setValue("village", "");
+                }}
               />
             ) : (
               <div className="">
@@ -89,6 +100,10 @@ const FormDataAlamat = (props: PropTypes) => {
                   label: data.name,
                   value: `${data.id}`,
                 }))}
+                onChange={(value) => {
+                  setDistrictId(value);
+                  form.setValue("village", "");
+                }}
               />
             ) : (
               <div className="">
@@ -105,6 +120,9 @@ const FormDataAlamat = (props: PropTypes) => {
                   label: data.name,
                   value: `${data.id}`,
                 }))}
+                onChange={(value) => {
+                  form.setValue("village", value);
+                }}
               />
             ) : (
               <div className="">

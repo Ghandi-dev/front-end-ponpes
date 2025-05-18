@@ -2,7 +2,8 @@ import Activation from "@/components/views/Auth/Activation/Activation";
 import authServices from "@/services/auth.service";
 
 // This is the App Router page component
-const ActivationPage = async ({ searchParams }: { searchParams: { code?: string } }) => {
+type SearchParams = Promise<{ code?: string }>;
+const ActivationPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   let status: "success" | "failed" = "failed";
   const params = await searchParams;
 

@@ -9,31 +9,28 @@ import Script from "next/script";
 import React, { useEffect } from "react";
 import usePembayaran from "./usePembayaran";
 import { Spinner } from "@/components/ui/spinner";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const Pembayaran = () => {
   const { dataProfile, refetchProfile } = useProfile();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   // Ambil parameter dari URL
-  const orderId = searchParams.get("order_id");
-  const transactionStatus = searchParams.get("transaction_status");
+  // const orderId = searchParams.get("order_id");
+  // const transactionStatus = searchParams.get("transaction_status");
 
-  const { handleCreatePayment, isPendingCreatePayment, dataPayment, handleMidtransSnap, isLoadingDataPayment, mutateUpdatePayment, isSuccessUpdatePayment } =
-    usePembayaran();
+  const { handleCreatePayment, isPendingCreatePayment, dataPayment, handleMidtransSnap, isLoadingDataPayment } = usePembayaran();
+
+  // useEffect(() => {
+  //   if (orderId && transactionStatus) {
+  //     mutateUpdatePayment();
+  //   }
+  // }, [orderId, transactionStatus, mutateUpdatePayment]);
 
   useEffect(() => {
-    if (orderId && transactionStatus) {
-      mutateUpdatePayment();
-    }
-  }, [orderId, transactionStatus, mutateUpdatePayment]); // Mutate hanya jalan sekali saat orderId dan transactionStatus berubah
-
-  useEffect(() => {
-    if (isSuccessUpdatePayment) {
-      refetchProfile();
-    }
-  }, [isSuccessUpdatePayment, refetchProfile]); // Hanya refetch saat status update berubah
+    refetchProfile();
+  }, []); // Hanya refetch saat status update berubah
 
   return (
     <>

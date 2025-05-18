@@ -10,8 +10,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SANTRI_STATUS } from "@/constant/status.constant";
 
 const CetakFormulir = () => {
-  const { dataProfile, isLoadingProfile } = useProfile();
+  const { dataProfile, isLoadingProfile, refetchProfile } = useProfile();
   const { dataAddress, dataVillage, isSuccessDataVillage, isLoadingDataAddress, isLoadingDataVillage } = useCetakFormulir();
+
+  useEffect(() => {
+    refetchProfile();
+  }, []);
 
   const isLoading = isLoadingProfile || isLoadingDataAddress || isLoadingDataVillage;
   const isDataReadyForPrint = dataAddress && dataVillage && isSuccessDataVillage;
