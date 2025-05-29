@@ -18,123 +18,123 @@ import ButtonAction from "@/components/commons/button/ButtonAction";
 import AlertDialogDelete from "@/components/commons/alert-dialog/AlertDialogDelete";
 
 const Santri = () => {
-  const router = useRouter();
-  const { setUrl, handleChangeSearch } = useChangeUrl();
-  const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate, handleDeleteSantri, handlePrint } =
-    useSantri();
+	const router = useRouter();
+	const { setUrl, handleChangeSearch } = useChangeUrl();
+	const { dataSantri, isLoadingSantri, setSelectedId, setStatus, status, handleActivateSantri, isPendingActivate, handleDeleteSantri, handlePrint } =
+		useSantri();
 
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+	const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
+	const [filterOpen, setFilterOpen] = useState(false);
 
-  useEffect(() => {
-    setUrl();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+	useEffect(() => {
+		setUrl();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-  const renderCell = useCallback(
-    (santri: SantriSelectSchemaType, columnKey: Key) => {
-      const cellValue = typeof columnKey === "string" && columnKey in santri ? santri[columnKey as keyof typeof santri] : null;
+	const renderCell = useCallback(
+		(santri: SantriSelectSchemaType, columnKey: Key) => {
+			const cellValue = typeof columnKey === "string" && columnKey in santri ? santri[columnKey as keyof typeof santri] : null;
 
-      switch (columnKey) {
-        case "status":
-          const statusClass = santri.status === SANTRI_STATUS.ACTIVE ? "bg-primary" : "bg-amber-400 text-accent-foreground";
-          return <Badge className={cn(statusClass)}>{santri.status ?? "UNKNOWN"}</Badge>;
+			switch (columnKey) {
+				case "status":
+					const statusClass = santri.status === SANTRI_STATUS.ACTIVE ? "bg-primary" : "bg-amber-400 text-accent-foreground";
+					return <Badge className={cn(statusClass)}>{santri.status ?? "UNKNOWN"}</Badge>;
 
-        case "actions":
-          return (
-            <ButtonAction
-              hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
-              isPendingActivate={isPendingActivate}
-              onPressButtonActivate={() => handleActivateSantri(santri.id as number)}
-              onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
-              onPressButtonDelete={() => {
-                setSelectedId(santri.id as number);
-                setIsDeleteDialogOpen(true);
-              }}
-            />
-          );
+				case "actions":
+					return (
+						<ButtonAction
+							hideButtonActivate={santri.status !== SANTRI_STATUS.PAYMENT_COMPLETED}
+							isPendingActivate={isPendingActivate}
+							onPressButtonActivate={() => handleActivateSantri(santri.id as number)}
+							onPressButtonDetail={() => router.push(`/admin/santri/${santri.id}`)}
+							onPressButtonDelete={() => {
+								setSelectedId(santri.id as number);
+								setIsDeleteDialogOpen(true);
+							}}
+						/>
+					);
 
-        default:
-          return cellValue as React.ReactNode;
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setSelectedId]
-  );
+				default:
+					return cellValue as React.ReactNode;
+			}
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[setSelectedId]
+	);
 
-  const topContent = useMemo(
-    () => (
-      <div className="flex flex-col-reverse items-start justify-between gap-4 lg:flex-row lg:items-center">
-        <div className="flex items-center gap-4 w-full lg:max-w-[70%]">
-          <div className="relative w-full lg:max-w-[30%]">
-            <Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
-            <Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
-          </div>
-          <Button className="bg-primary" onClick={() => setFilterOpen(true)}>
-            Filter
-            <MenuSquare />
-          </Button>
-          <Button className="bg-primary" onClick={() => handlePrint()}>
-            Cetak
-            <Printer />
-          </Button>
-        </div>
-        {/* <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
+	const topContent = useMemo(
+		() => (
+			<div className="flex flex-col-reverse items-start justify-between gap-4 lg:flex-row lg:items-center">
+				<div className="flex items-center gap-4 w-full lg:max-w-[70%]">
+					<div className="relative w-full lg:max-w-[30%]">
+						<Search className="absolute left-2.5 top-1.5 text-muted-foreground" />
+						<Input placeholder="Cari Berdasarkan Nama" className="pl-8" onChange={handleChangeSearch} />
+					</div>
+					<Button className="bg-primary" onClick={() => setFilterOpen(true)}>
+						Filter
+						<MenuSquare />
+					</Button>
+					<Button className="bg-primary" onClick={() => handlePrint()}>
+						Cetak
+						<Printer />
+					</Button>
+				</div>
+				{/* <Button className="bg-primary" onClick={() => setOpenModalAddSantri(true)}>
           {"Tambah Data Santri"}
         </Button> */}
-      </div>
-    ),
-    [handleChangeSearch]
-  );
+			</div>
+		),
+		[handleChangeSearch]
+	);
 
-  return (
-    <div className="p-4">
-      <DataTable<SantriSelectSchemaType>
-        data={dataSantri?.data || []}
-        isLoading={isLoadingSantri}
-        columns={COLUMN_LIST_SANTRI}
-        emptyContent="Tidak ada data"
-        renderCell={renderCell}
-        totalPages={dataSantri?.pagination?.totalPages}
-        showLimit
-        topContent={topContent}
-      />
-      {/* Form Add Santri */}
-      <DynamicDialog title="Form Tambah Santri" open={openModalAddSantri} onOpenChange={setOpenModalAddSantri} isModal>
-        <div className="mt-4 flex flex-col gap-4">
-          <Input placeholder="Nama Santri" />
-        </div>
-      </DynamicDialog>
-      {/* Form Filter Santri */}
-      <DynamicDialog title="Filter Santri" open={filterOpen} onOpenChange={setFilterOpen}>
-        <div className="mt-4 flex flex-col gap-4">
-          <MultiSelect
-            className="w-full"
-            placeholder="Pilih Status"
-            maxCount={1}
-            onValueChange={setStatus || (() => {})}
-            options={
-              Object.values(SANTRI_STATUS).map((status) => ({
-                label: SANTRI_STATUS_LABELS[status],
-                value: status,
-              })) || []
-            }
-            defaultValue={status}
-          />
-        </div>
-      </DynamicDialog>
+	return (
+		<div className="p-4">
+			<DataTable<SantriSelectSchemaType>
+				data={dataSantri?.data || []}
+				isLoading={isLoadingSantri}
+				columns={COLUMN_LIST_SANTRI}
+				emptyContent="Tidak ada data"
+				renderCell={renderCell}
+				totalPages={dataSantri?.pagination?.totalPages}
+				showLimit
+				topContent={topContent}
+			/>
+			{/* Form Add Santri */}
+			<DynamicDialog title="Form Tambah Santri" open={openModalAddSantri} onOpenChange={setOpenModalAddSantri} isModal>
+				<div className="mt-4 flex flex-col gap-4">
+					<Input placeholder="Nama Santri" />
+				</div>
+			</DynamicDialog>
+			{/* Form Filter Santri */}
+			<DynamicDialog title="Filter Santri" open={filterOpen} onOpenChange={setFilterOpen}>
+				<div className="mt-4 flex flex-col gap-4">
+					<MultiSelect
+						className="w-full"
+						placeholder="Pilih Status"
+						maxCount={1}
+						onValueChange={setStatus || (() => {})}
+						options={
+							Object.values(SANTRI_STATUS).map((status) => ({
+								label: SANTRI_STATUS_LABELS[status],
+								value: status,
+							})) || []
+						}
+						defaultValue={status}
+					/>
+				</div>
+			</DynamicDialog>
 
-      {/* Alert Dialog Delete */}
-      <AlertDialogDelete
-        open={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        onClickDelete={handleDeleteSantri} // TODO: implement delete action
-        title="Konfirmasi Hapus"
-        description="Apakah kamu yakin ingin menghapus data ini?"
-      />
-    </div>
-  );
+			{/* Alert Dialog Delete */}
+			<AlertDialogDelete
+				open={isDeleteDialogOpen}
+				onOpenChange={setIsDeleteDialogOpen}
+				onClickDelete={handleDeleteSantri} // TODO: implement delete action
+				title="Konfirmasi Hapus"
+				description="Apakah kamu yakin ingin menghapus data ini?"
+			/>
+		</div>
+	);
 };
 
 export default Santri;

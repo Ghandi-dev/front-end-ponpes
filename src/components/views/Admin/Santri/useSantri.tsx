@@ -8,95 +8,99 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const useSantri = () => {
-  const [selectedId, setSelectedId] = useState<number>();
-  const [status, setStatus] = useState<string[]>();
-  const { currentLimit, currentPage, currentSearch } = useChangeUrl();
+	const [selectedId, setSelectedId] = useState<number>();
+	const [status, setStatus] = useState<string[]>();
+	const { currentLimit, currentPage, currentSearch } = useChangeUrl();
 
-  const getSantri = async () => {
-    let params = `limit=${currentLimit}&page=${currentPage}`;
-    if (status) params += `&status=${status}`;
-    if (currentSearch) {
-      params += `&fullname=${currentSearch}`;
-    }
-    const res = await santriService.getAll(params);
-    return res.data;
-  };
+	const getSantri = async () => {
+		let params = `limit=${currentLimit}&page=${currentPage}`;
+		if (status) params += `&status=${status}`;
+		if (currentSearch) {
+			params += `&fullname=${currentSearch}`;
+		}
+		const res = await santriService.getAll(params);
+		return res.data;
+	};
 
-  const {
-    data: dataSantri,
-    isLoading: isLoadingSantri,
-    refetch: refetchSantri,
-  } = useQuery({
-    queryKey: ["santri", currentLimit, currentPage, currentSearch, status],
-    queryFn: getSantri,
-    enabled: !!currentLimit && !!currentPage,
-  });
+	const {
+		data: dataSantri,
+		isLoading: isLoadingSantri,
+		refetch: refetchSantri,
+	} = useQuery({
+		queryKey: ["santri", currentLimit, currentPage, currentSearch, status],
+		queryFn: getSantri,
+		enabled: !!currentLimit && !!currentPage,
+	});
 
-  const activateSantri = async (santriId: number, payload: Partial<SantriSelectSchemaType>) => {
-    const res = await santriService.update(santriId, payload);
-    return res.data;
-  };
+	const activateSantri = async (santriId: number, payload: Partial<SantriSelectSchemaType>) => {
+		const res = await santriService.update(santriId, payload);
+		return res.data;
+	};
 
-  const { mutate: activateSantriMutate, isPending: isPendingActivate } = useMutation({
-    mutationFn: ({ santriId, payload }: { santriId: number; payload: Partial<SantriSelectSchemaType> }) => activateSantri(santriId, payload),
-    onSuccess: () => {
-      toast.success("Berhasil mengaktifkan santri");
-      refetchSantri();
-    },
-    onError: (error) => {
-      toast.error(error.message || "Gagal mengaktifkan santri");
-    },
-  });
+	const { mutate: activateSantriMutate, isPending: isPendingActivate } = useMutation({
+		mutationFn: ({ santriId, payload }: { santriId: number; payload: Partial<SantriSelectSchemaType> }) => activateSantri(santriId, payload),
+		onSuccess: () => {
+			toast.success("Berhasil mengaktifkan santri");
+			refetchSantri();
+		},
+		onError: (error) => {
+			toast.error(error.message || "Gagal mengaktifkan santri");
+		},
+	});
 
-  const handleActivateSantri = (santriId: number) => {
-    const payload: Partial<SantriSelectSchemaType> = {
-      status: SANTRI_STATUS.ACTIVE as string,
-    };
-    activateSantriMutate({ santriId, payload });
-  };
+	const handleActivateSantri = (santriId: number) => {
+		const payload: Partial<SantriSelectSchemaType> = {
+			status: SANTRI_STATUS.ACTIVE as string,
+		};
+		activateSantriMutate({ santriId, payload });
+	};
 
-  const deleteSantri = async (santriId: number) => {
-    const res = await santriService.delete(santriId);
-    return res.data;
-  };
+	const deleteSantri = async (santriId: number) => {
+		const res = await santriService.delete(santriId);
+		return res.data;
+	};
 
-  const { mutate: deleteSantriMutate } = useMutation({
-    mutationFn: (santriId: number) => deleteSantri(santriId),
-    onSuccess: () => {
-      toast.success("Berhasil menghapus santri");
-      refetchSantri();
-    },
-    onError: (error) => {
-      toast.error(error.message || "Gagal menghapus santri");
-    },
-  });
+	const { mutate: deleteSantriMutate } = useMutation({
+		mutationFn: (santriId: number) => deleteSantri(santriId),
+		onSuccess: () => {
+			toast.success("Berhasil menghapus santri");
+			refetchSantri();
+		},
+		onError: (error) => {
+			toast.error(error.message || "Gagal menghapus santri");
+		},
+	});
 
-  const handleDeleteSantri = () => {
-    deleteSantriMutate(selectedId as number);
-  };
+	const handleDeleteSantri = () => {
+		deleteSantriMutate(selectedId as number);
+	};
 
-  const handlePrint = () => {
-    if (!dataSantri) return;
+	const handlePrint = () => {
+		if (!dataSantri) return;
+		if (!status || status.length === 0 || status.some((s) => s !== SANTRI_STATUS.ACTIVE)) {
+			toast.warning("Atur filter status santri ke 'Aktif' sebelum mencetak.");
+			return;
+		}
 
-    // Simpan data ke sessionStorage
-    sessionStorage.setItem("santriData", JSON.stringify(dataSantri));
+		// Simpan data ke sessionStorage
+		sessionStorage.setItem("santriData", JSON.stringify(dataSantri));
 
-    // Buka tab baru ke halaman cetak
-    window.open("/cetak-data-santri", "_blank");
-  };
+		// Buka tab baru ke halaman cetak
+		window.open("/cetak-data-santri", "_blank");
+	};
 
-  return {
-    dataSantri,
-    selectedId,
-    setSelectedId,
-    isLoadingSantri,
-    status,
-    setStatus,
-    isPendingActivate,
-    handleActivateSantri,
-    handleDeleteSantri,
-    handlePrint,
-  };
+	return {
+		dataSantri,
+		selectedId,
+		setSelectedId,
+		isLoadingSantri,
+		status,
+		setStatus,
+		isPendingActivate,
+		handleActivateSantri,
+		handleDeleteSantri,
+		handlePrint,
+	};
 };
 
 export default useSantri;
