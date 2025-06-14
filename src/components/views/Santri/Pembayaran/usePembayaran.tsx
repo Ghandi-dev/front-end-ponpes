@@ -111,6 +111,9 @@ const usePembayaran = () => {
     handleMidtransSnap,
     isPendingUpdatePayment,
     isSuccessUpdatePayment,
+
+    orderId,
+    transactionStatus,
     mutateUpdatePayment,
   };
 };

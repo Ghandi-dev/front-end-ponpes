@@ -24,7 +24,7 @@ const Santri = () => {
 		useSantri();
 
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-	const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
+	// const [openModalAddSantri, setOpenModalAddSantri] = useState(false);
 	const [filterOpen, setFilterOpen] = useState(false);
 
 	useEffect(() => {
@@ -101,11 +101,11 @@ const Santri = () => {
 				topContent={topContent}
 			/>
 			{/* Form Add Santri */}
-			<DynamicDialog title="Form Tambah Santri" open={openModalAddSantri} onOpenChange={setOpenModalAddSantri} isModal>
+			{/* <DynamicDialog title="Form Tambah Santri" open={openModalAddSantri} onOpenChange={setOpenModalAddSantri} isModal>
 				<div className="mt-4 flex flex-col gap-4">
 					<Input placeholder="Nama Santri" />
 				</div>
-			</DynamicDialog>
+			</DynamicDialog> */}
 			{/* Form Filter Santri */}
 			<DynamicDialog title="Filter Santri" open={filterOpen} onOpenChange={setFilterOpen}>
 				<div className="mt-4 flex flex-col gap-4">
